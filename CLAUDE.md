@@ -19,3 +19,8 @@ Examples:
 - `project/docs/add-claude-md`
 
 If the scope is unclear, ask which prefix to use.
+
+## Git Commit Messages
+
+- Keep commit messages short: 1 sentence, 2 at most.
+- Never add `Co-Authored-By`, "Generated with Claude", or any other attribution/credit trailers.
