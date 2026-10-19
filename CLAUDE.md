@@ -24,3 +24,8 @@ If the scope is unclear, ask which prefix to use.
 
 - Keep commit messages short: 1 sentence, 2 at most.
 - Never add `Co-Authored-By`, "Generated with Claude", or any other attribution/credit trailers.
+
+## Git Workflow
+
+- Commit on the feature branch, then push the branch to GitHub (`git push -u origin <branch>`).
+- Do not merge feature branches into `main` locally; merging happens on GitHub.
