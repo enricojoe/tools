@@ -17,8 +17,11 @@ backend/
   internal/router/    # Route registration (/api group)
   internal/handler/   # Request handlers + tests
 frontend/
-  src/                # React app
+  src/api/            # Typed API clients (fetch wrappers)
+  src/components/     # UI components
+  src/                # App shell and global styles
 tasks/
+  plans/              # Per-task plans
   lessons/            # Lessons learned, by domain
 ```
 
@@ -42,13 +45,15 @@ npm run build            # type-check + production build
 npm run lint
 ```
 
+In dev, Vite proxies `/api` to `http://localhost:8080`, so start the backend alongside it and call the API with relative URLs (e.g. `fetch('/api/qr')`).
+
 ## Progress
 
 ### Feature List
 
 What the app can do for its users.
 
-_No features yet._
+- [x] QR code generator: turn text or a URL into a downloadable PNG, with selectable size and error-correction level
 
 ### Foundation
 
@@ -58,6 +63,7 @@ Technical groundwork the features are built on.
 - [x] Backend HTTP server with configurable `PORT` and graceful shutdown
 - [x] `GET /api/health` endpoint, with unit test
 - [x] Repo conventions in `CLAUDE.md`: branch naming, commit messages, push workflow
+- [x] Frontend ↔ backend connection: typed API client and Vite dev proxy for `/api`
 
 ### Working On
 
@@ -67,14 +73,14 @@ _Nothing in progress._
 
 Features the owner has decided to build.
 
-- [ ] QR code generator
+_None right now._
 
 ### Suggested Updates
 
 Claude's suggestions for next steps, for the owner to accept or drop.
 
-- [ ] Frontend UI (still the Vite starter page)
-- [ ] Frontend ↔ backend connection (API client, Vite dev proxy)
+- [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
+- [ ] Frontend tests (Vitest + React Testing Library)
 - [ ] Database layer
 - [ ] Authentication
 - [ ] CI pipeline
