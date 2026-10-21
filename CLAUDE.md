@@ -36,5 +36,6 @@ If the scope is unclear, ask which prefix to use.
   - **Feature List:** what the app can do for its users (e.g. a QR code generator). Add a feature here, checked off, once it's finished.
   - **Foundation:** technical groundwork that isn't a user-facing feature (server setup, database, auth, CI, repo conventions). Add items here, checked off, once finished.
   - **Working On:** add an item when work on it starts; remove it when it moves to Feature List or Foundation.
-  - **Suggested Updates:** ideas for next steps; remove an item when it moves to Working On.
+  - **Planned Features:** features the user has asked to build. Remove an item when it moves to Working On.
+  - **Suggested Updates:** Claude's own suggestions for next steps. Keep it current as the project evolves; move an item to Planned Features when the user accepts it, or remove it when they drop it.
 - Also update other README sections (stack, structure, setup commands) if the feature changes them.

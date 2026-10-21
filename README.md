@@ -63,9 +63,16 @@ Technical groundwork the features are built on.
 
 _Nothing in progress._
 
-### Suggested Updates
+### Planned Features
+
+Features the owner has decided to build.
 
 - [ ] QR code generator
+
+### Suggested Updates
+
+Claude's suggestions for next steps, for the owner to accept or drop.
+
 - [ ] Frontend UI (still the Vite starter page)
 - [ ] Frontend ↔ backend connection (API client, Vite dev proxy)
 - [ ] Database layer
