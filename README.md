@@ -46,6 +46,14 @@ npm run lint
 
 ### Feature List
 
+What the app can do for its users.
+
+_No features yet._
+
+### Foundation
+
+Technical groundwork the features are built on.
+
 - [x] Project scaffold: Go backend and React frontend
 - [x] Backend HTTP server with configurable `PORT` and graceful shutdown
 - [x] `GET /api/health` endpoint, with unit test
@@ -57,6 +65,7 @@ _Nothing in progress._
 
 ### Suggested Updates
 
+- [ ] QR code generator
 - [ ] Frontend UI (still the Vite starter page)
 - [ ] Frontend ↔ backend connection (API client, Vite dev proxy)
 - [ ] Database layer

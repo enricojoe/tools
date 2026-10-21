@@ -33,7 +33,8 @@ If the scope is unclear, ask which prefix to use.
 ## README Progress
 
 - Keep the **Progress** section of the root `README.md` current, in the same branch as the work:
-  - **Working On:** add the feature when work on it starts.
-  - **Feature List:** move it here, checked off, once it's finished.
+  - **Feature List:** what the app can do for its users (e.g. a QR code generator). Add a feature here, checked off, once it's finished.
+  - **Foundation:** technical groundwork that isn't a user-facing feature (server setup, database, auth, CI, repo conventions). Add items here, checked off, once finished.
+  - **Working On:** add an item when work on it starts; remove it when it moves to Feature List or Foundation.
   - **Suggested Updates:** ideas for next steps; remove an item when it moves to Working On.
 - Also update other README sections (stack, structure, setup commands) if the feature changes them.
