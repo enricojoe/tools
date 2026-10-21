@@ -32,5 +32,8 @@ If the scope is unclear, ask which prefix to use.
 
 ## README Progress
 
-- Whenever a feature is created (or a roadmap item is finished), update the **Progress** section of the root `README.md` in the same branch: check off or add the item, and move it from "Not Started" to "Done".
+- Keep the **Progress** section of the root `README.md` current, in the same branch as the work:
+  - **Working On:** add the feature when work on it starts.
+  - **Feature List:** move it here, checked off, once it's finished.
+  - **Suggested Updates:** ideas for next steps; remove an item when it moves to Working On.
 - Also update other README sections (stack, structure, setup commands) if the feature changes them.

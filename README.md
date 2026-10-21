@@ -44,14 +44,18 @@ npm run lint
 
 ## Progress
 
-### Done
+### Feature List
 
 - [x] Project scaffold: Go backend and React frontend
 - [x] Backend HTTP server with configurable `PORT` and graceful shutdown
 - [x] `GET /api/health` endpoint, with unit test
 - [x] Repo conventions in `CLAUDE.md`: branch naming, commit messages, push workflow
 
-### Not Started
+### Working On
+
+_Nothing in progress._
+
+### Suggested Updates
 
 - [ ] Frontend UI (still the Vite starter page)
 - [ ] Frontend ↔ backend connection (API client, Vite dev proxy)
