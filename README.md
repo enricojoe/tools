@@ -16,6 +16,7 @@ backend/
   cmd/server/         # HTTP server entry point (graceful shutdown)
   internal/router/    # Route registration (/api group)
   internal/handler/   # Request handlers + tests
+  internal/qr/        # QR code generation (isolates the QR library)
 frontend/
   src/                # React app
 tasks/

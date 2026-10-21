@@ -12,6 +12,7 @@ func New() *gin.Engine {
 
 	api := r.Group("/api")
 	api.GET("/health", handler.Health)
+	api.POST("/qr", handler.QR)
 
 	return r
 }
