@@ -29,3 +29,8 @@ If the scope is unclear, ask which prefix to use.
 
 - Commit on the feature branch, then push the branch to GitHub (`git push -u origin <branch>`).
 - Do not merge feature branches into `main` locally; merging happens on GitHub.
+
+## README Progress
+
+- Whenever a feature is created (or a roadmap item is finished), update the **Progress** section of the root `README.md` in the same branch: check off or add the item, and move it from "Not Started" to "Done".
+- Also update other README sections (stack, structure, setup commands) if the feature changes them.
