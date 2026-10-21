@@ -27,7 +27,8 @@ If the scope is unclear, ask which prefix to use.
 
 ## Git Workflow
 
-- Commit on the feature branch, then push the branch to GitHub (`git push -u origin <branch>`).
+- Do not commit or push until the user explicitly says to. Leave changes uncommitted in the working tree and report what changed.
+- When told to commit, commit on the feature branch, then push the branch to GitHub (`git push -u origin <branch>`).
 - Do not merge feature branches into `main` locally; merging happens on GitHub.
 
 ## README Progress
