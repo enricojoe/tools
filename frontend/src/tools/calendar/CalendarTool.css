@@ -1,0 +1,314 @@
+.calendar-tool {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 760px;
+}
+
+.calendar-card {
+  --pop: var(--highlight);
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.calendar-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-title {
+  flex: 1;
+  font-size: clamp(1.15rem, 4vw, 1.4rem);
+  font-weight: 900;
+  text-align: center;
+}
+
+.icon-btn {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+}
+
+.today-btn {
+  padding: 0.35rem 1rem;
+  font-size: 0.9rem;
+}
+
+.calendar-grid {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.weekday {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--muted);
+}
+
+.weekday[data-sunday] {
+  color: var(--highlight);
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 0.35rem 0.4rem;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, transform 0.1s;
+}
+
+.day:hover {
+  border-color: var(--accent);
+}
+
+.day-num {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tanggal merah: Sundays and public holidays get a red date. */
+.day[data-sunday] .day-num,
+.day[data-national] .day-num {
+  color: var(--highlight);
+}
+
+.day[data-national] {
+  background: var(--highlight-soft);
+  border-color: var(--highlight);
+}
+
+.day[data-leave] {
+  background: var(--accent-soft);
+  border-style: dashed;
+  border-color: var(--accent);
+}
+
+.day[data-today] .day-num {
+  display: inline-grid;
+  place-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  margin: -0.15rem 0 0 -0.15rem;
+  color: var(--on-accent);
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+.day[aria-pressed='true'] {
+  border-color: var(--ink);
+  box-shadow: 3px 3px 0 var(--accent);
+  transform: translate(-1px, -1px);
+}
+
+.day[data-outside] {
+  opacity: 0.4;
+}
+
+.day-name {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--muted);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  list-style: none;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.swatch {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid;
+  border-radius: 4px;
+}
+
+.swatch-national {
+  background: var(--highlight-soft);
+  border-color: var(--highlight);
+}
+
+.swatch-leave {
+  background: var(--accent-soft);
+  border-style: dashed;
+  border-color: var(--accent);
+}
+
+.swatch-today {
+  background: var(--accent);
+  border-color: var(--accent);
+  border-radius: 999px;
+}
+
+.day-card {
+  --pop: var(--accent);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.section-title {
+  font-size: 1.15rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.month-section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.holiday-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.holiday {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-left: 6px solid var(--highlight);
+  border-radius: var(--radius-sm);
+}
+
+.holiday[data-type='collective_leave'] {
+  border-left-color: var(--accent);
+}
+
+.holiday-btn {
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.holiday-btn:hover,
+.holiday-btn[aria-pressed='true'] {
+  border-color: var(--ink);
+}
+
+.holiday-btn[data-type='national']:is(:hover, [aria-pressed='true']) {
+  border-left-color: var(--highlight);
+}
+
+.holiday-btn[data-type='collective_leave']:is(:hover, [aria-pressed='true']) {
+  border-left-color: var(--accent);
+}
+
+.holiday-date {
+  min-width: 6.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.holiday strong {
+  flex: 1 1 12rem;
+}
+
+.badge {
+  padding: 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--highlight);
+  background: var(--highlight-soft);
+  border-radius: 999px;
+}
+
+.holiday[data-type='collective_leave'] .badge {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.holiday-when {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.calendar-tool .empty {
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.calendar-tool .error p + .retry-btn {
+  margin-top: 0.6rem;
+}
+
+.calendar-tool .retry-btn {
+  padding: 0.35rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Phones: names don't fit in the cells; the dates and colors still show them. */
+@media (max-width: 560px) {
+  .calendar-card {
+    padding: 0.75rem;
+  }
+
+  .calendar-grid,
+  .calendar-row {
+    gap: 0.2rem;
+  }
+
+  .day {
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.3rem 0;
+    border-radius: 10px;
+  }
+
+  .day-name {
+    display: none;
+  }
+
+  .day[data-today] .day-num {
+    margin: -0.1rem 0 0;
+  }
+}

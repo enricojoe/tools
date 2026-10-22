@@ -8,3 +8,5 @@
 - [x] QR code reader: frontend page -> See tasks/plans/qr-reader-page.md (branch `frontend/feature/qr-reader-page`)
 - [x] Alarm & timer: backend server time API -> See tasks/plans/server-time-api.md (branch `backend/feature/server-time-api`)
 - [x] Alarm & timer: frontend pages -> See tasks/plans/alarm-timer-page.md (branch `frontend/feature/alarm-timer`)
+- [x] Calendar: backend Indonesian holidays API -> See tasks/plans/holidays-api.md (branch `backend/feature/holidays-api`)
+- [x] Calendar: frontend page -> See tasks/plans/calendar-page.md (branch `frontend/feature/calendar`)

@@ -39,6 +39,14 @@ A live clock showing the **server's** time (with its timezone), plus alarms set 
 
 A countdown set with hours, minutes and seconds or the 1, 5, 10 and 25 minute presets. Start, pause, resume and reset it; a progress ring shows what's left and the tab title shows the remaining time while it runs. It counts down to an end timestamp, so a throttled background tab doesn't drift. When it hits zero it beeps and sends a notification (if allowed). It uses your device's clock and only runs while the page is open.
 
+### Calendar (`/tools/calendar`)
+
+A month calendar with every Indonesian **public holiday** (hari libur nasional) and **cuti bersama** marked, as set by the government's SKB 3 Menteri:
+
+- **Tanggal merah:** Sundays and public holidays have red dates; public holidays get a red cell, cuti bersama a dashed blue one, and today a blue dot.
+- **Browse:** move by month or jump back to today. Click a day to see what it is; the month's holidays are listed below with how many days away they are.
+- **Coverage:** 2025, 2026 and 2027. Other years show a note instead of holidays. Data comes from the backend (`GET /api/holidays`); Islamic holiday dates can still shift with the official moon sighting.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -111,6 +119,7 @@ What the app can do for its users.
 - [x] QR code reader: read a QR code from an uploaded or dropped image (PNG, JPEG, GIF), or scan it live with the camera; copy the text or open it if it's a link
 - [x] Alarm: live server clock with timezone, one-shot or weekly repeating alarms with labels, snooze, sound and browser notifications (rings only while the page is open)
 - [x] Timer: countdown with hours/minutes/seconds and quick presets, start/pause/resume/reset, progress ring, tab title countdown, sound and browser notification when done
+- [x] Calendar: month view with all Indonesian public holidays and cuti bersama (2025–2027, per the SKB 3 Menteri), Sundays in red, day details and a list of the month's holidays
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
@@ -142,6 +151,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] More tools: JSON formatter, Base64 encode/decode, password generator, unit converter, image resizer
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] Recently used tools on the home page
+- [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)
 - [ ] Frontend tests (Vitest + React Testing Library)
 - [ ] Database layer
 - [ ] Authentication
