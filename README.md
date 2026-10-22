@@ -47,6 +47,16 @@ A month calendar with every Indonesian **public holiday** (hari libur nasional) 
 - **Browse:** move by month or jump back to today. Click a day to see what it is; the month's holidays are listed below with how many days away they are.
 - **Coverage:** 2025, 2026 and 2027. Other years show a note instead of holidays. Data comes from the backend (`GET /api/holidays`); Islamic holiday dates can still shift with the official moon sighting.
 
+### Pomodoro (`/tools/pomodoro`)
+
+A focus timer that works in rounds: focus, then a short break, with a long break after every few focus sessions (25 / 5 / 15 minutes and every 4 rounds by default):
+
+- **Cycle:** a progress ring, dots for the round you're in, and Start, Pause, Resume, Reset and Skip. When a phase ends the next one is lined up (or starts by itself if you turn on auto-start).
+- **Settings:** change the lengths, the long-break interval and auto-start. They're saved in this browser (`localStorage`).
+- **Label:** say what you're working on for a focus session (optional).
+- **Alerts:** the tab title shows the time left and the phase, and a phase ending beeps and sends a notification (if allowed). It counts down to an end timestamp, so a throttled background tab doesn't drift, and it only runs while the page is open.
+- **Today:** every finished phase is logged through the API (skipped or reset ones aren't), and the page lists today's sessions with the focus count and total focus time. Sessions are kept in the server's memory, so they reset when the server restarts. If the server can't be reached the timer keeps working and the page offers a retry.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -122,6 +132,7 @@ What the app can do for its users.
 - [x] Alarm: live server clock with timezone, one-shot or weekly repeating alarms with labels, snooze, sound and browser notifications (rings only while the page is open)
 - [x] Timer: countdown with hours/minutes/seconds and quick presets, start/pause/resume/reset, progress ring, tab title countdown, sound and browser notification when done
 - [x] Calendar: month view with all Indonesian public holidays and cuti bersama (2025–2027, per the SKB 3 Menteri), Sundays in red, day details and a list of the month's holidays
+- [x] Pomodoro: focus / short break / long break cycle with adjustable lengths, auto-advance, labels, progress ring, tab title countdown, sound and browser notification, and a "Today" list of finished sessions (logged through the API, kept in server memory)
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 

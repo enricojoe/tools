@@ -1,9 +1,11 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { Icon } from '../../components/Icon'
 import { NotifyPrompt } from '../shared/NotifyPrompt'
 import { RingDialog } from '../shared/RingDialog'
 import { notify, unlockAudio } from '../shared/alert'
+import { formatRemaining } from '../shared/formatRemaining'
 import { useAlertSound, useNotifyPermission } from '../shared/useAlert'
+import { useDocumentTitle } from '../shared/useDocumentTitle'
 import '../shared/shared.css'
 import './TimerTool.css'
 
@@ -18,45 +20,10 @@ const RADIUS = 90
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 const TICK_MS = 200
 
-function pad(n: number): string {
-  return String(n).padStart(2, '0')
-}
-
-/** "MM:SS", or "H:MM:SS" from an hour up. Rounds up so it reads 00:01 until the very end. */
-function formatRemaining(ms: number): string {
-  const total = Math.ceil(ms / 1000)
-  const h = Math.floor(total / 3600)
-  const m = Math.floor((total % 3600) / 60)
-  const s = total % 60
-  return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`
-}
-
 /** Keeps digits only and clamps to `max`; '' stays '' so the field can be cleared. */
 function clampField(value: string, max: number): string {
   const digits = value.replace(/\D/g, '').slice(0, 3)
   return digits === '' ? '' : String(Math.min(Number(digits), max))
-}
-
-/** Puts `text` in the tab title while non-null, and restores the original after. */
-function useDocumentTitle(text: string | null): void {
-  const original = useRef<string | null>(null)
-
-  useEffect(() => {
-    if (text !== null) {
-      original.current ??= document.title
-      document.title = text
-    } else if (original.current !== null) {
-      document.title = original.current
-      original.current = null
-    }
-  }, [text])
-
-  useEffect(
-    () => () => {
-      if (original.current !== null) document.title = original.current
-    },
-    [],
-  )
 }
 
 export default function TimerTool() {

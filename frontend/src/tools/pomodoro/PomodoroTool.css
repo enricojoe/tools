@@ -1,0 +1,232 @@
+.pomo-card {
+  --pop: var(--highlight);
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+}
+
+.pomo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.pomo-phase {
+  margin: 0;
+  padding: 0.2rem 1rem;
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--highlight);
+  background: var(--highlight-soft);
+  border-radius: 999px;
+}
+
+.pomo-phase:not([data-kind='focus']) {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.pomo-dial {
+  position: relative;
+  width: min(100%, 280px);
+  aspect-ratio: 1;
+}
+
+.pomo-svg {
+  width: 100%;
+  height: 100%;
+  rotate: -90deg;
+}
+
+.pomo-track {
+  fill: none;
+  stroke: var(--surface-2);
+  stroke-width: 12;
+}
+
+.pomo-progress {
+  fill: none;
+  stroke: var(--highlight);
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.pomo-dial:not([data-kind='focus']) .pomo-progress {
+  stroke: var(--accent);
+}
+
+.pomo-dial[data-status='paused'] .pomo-progress {
+  stroke: var(--muted);
+}
+
+.pomo-readout {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  margin: 0;
+  font-size: clamp(2.2rem, 11vw, 3.25rem);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.pomo-rounds {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: center;
+}
+
+.pomo-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pomo-dot {
+  width: 0.9rem;
+  height: 0.9rem;
+  background: var(--surface-2);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+
+.pomo-dot[data-state='done'] {
+  background: var(--highlight);
+}
+
+.pomo-dot[data-state='current'] {
+  background: var(--highlight-soft);
+  border-color: var(--highlight);
+  scale: 1.25;
+}
+
+.pomo-label {
+  width: min(100%, 24rem);
+}
+
+.pomo-settings {
+  padding: 0;
+}
+
+.pomo-settings summary {
+  padding: 0.9rem 1.25rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pomo-settings-body {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.pomo-fields {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.pomo-check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.pomo-check input {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--accent);
+}
+
+.today-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.today-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.today-stats > div {
+  padding: 0.75rem;
+  text-align: center;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+
+.today-stats dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.today-stats dd {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 900;
+}
+
+.session-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.session {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.session .badge {
+  padding: 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--highlight);
+  background: var(--highlight-soft);
+  border-radius: 999px;
+}
+
+.session:not([data-kind='focus']) .badge {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.session-label {
+  flex: 1 1 8rem;
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.session-when {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.today-card :is(.empty, .muted) {
+  padding: 0.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pomo-progress {
+    transition: stroke 0.2s;
+  }
+}

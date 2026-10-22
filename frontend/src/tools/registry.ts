@@ -63,6 +63,15 @@ export const TOOLS: Tool[] = [
     keywords: ['holiday', 'libur', 'tanggal merah', 'cuti bersama', 'indonesia', 'date', 'month'],
     Component: lazy(() => import('./calendar/CalendarTool')),
   },
+  {
+    slug: 'pomodoro',
+    name: 'Pomodoro',
+    description: 'Focus in timed rounds with short and long breaks, and see what you got done today.',
+    category: 'Time',
+    icon: 'tomato',
+    keywords: ['focus', 'study', 'work', 'break', 'productivity', 'sessions', 'tomato'],
+    Component: lazy(() => import('./pomodoro/PomodoroTool')),
+  },
 ]
 
 export function findTool(slug: string | undefined): Tool | undefined {
