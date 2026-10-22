@@ -12,4 +12,5 @@
 - [x] Calendar: frontend page -> See tasks/plans/calendar-page.md (branch `frontend/feature/calendar`)
 - [x] Pomodoro: backend sessions API -> See tasks/plans/pomodoro-api.md (branch `backend/feature/pomodoro-api`)
 - [x] Pomodoro: frontend page -> See tasks/plans/pomodoro-page.md (branch `frontend/feature/pomodoro`)
+- [x] Color picker: frontend page -> See tasks/plans/color-picker-page.md (branch `frontend/feature/color-picker`)
 - [x] Color picker: backend color info API -> See tasks/plans/color-api.md (branch `backend/feature/color-api`)

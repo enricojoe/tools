@@ -30,6 +30,9 @@ const PATHS = {
   tomato: 'M12 8c-4.5 0-8 2.6-8 6.5S7.5 21 12 21s8-2.6 8-6.5S16.5 8 12 8zM12 8V4M12 6l-3-2M12 6l3-2',
   chevronLeft: 'M15 5l-7 7 7 7',
   chevronRight: 'M9 5l7 7-7 7',
+  palette:
+    'M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1.2-1-1.6-1-2.7 0-1 .8-1.6 1.8-1.6H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8zM7.5 11h.01M10 7.5h.01M14.5 7.5h.01',
+  eyedropper: 'M14 9l-9 9v3h3l9-9M13 6l5 5M15 4a2.1 2.1 0 0 1 3 0l2 2a2.1 2.1 0 0 1 0 3l-2 2-5-5z',
 } as const
 
 export type IconName = keyof typeof PATHS

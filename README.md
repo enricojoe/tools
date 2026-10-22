@@ -57,6 +57,15 @@ A focus timer that works in rounds: focus, then a short break, with a long break
 - **Alerts:** the tab title shows the time left and the phase, and a phase ending beeps and sends a notification (if allowed). It counts down to an end timestamp, so a throttled background tab doesn't drift, and it only runs while the page is open.
 - **Today:** every finished phase is logged through the API (skipped or reset ones aren't), and the page lists today's sessions with the focus count and total focus time. Sessions are kept in the server's memory, so they reset when the server restarts. If the server can't be reached the timer keeps working and the page offers a retry.
 
+### Color Picker (`/tools/color-picker`)
+
+Pick a color and see everything about it:
+
+- **Picker:** a saturation/brightness square and a hue slider (mouse, touch or arrow keys), plus a hex field that checks what you type. Browsers that support it also get a "Pick from screen" eyedropper.
+- **Info:** the nearest CSS color name ("≈" when it isn't exact), HEX, RGB, HSL, HSV and CMYK values with copy buttons, and contrast against white and black with WCAG AA/AAA pass badges and a text preview. This comes from the backend (`GET /api/colors`) and updates shortly after you stop moving.
+- **Shades and harmonies:** complementary, analogous, triadic, split complementary and tetradic colors, and nine shades. Click any swatch to make it the current color.
+- **Saved colors:** save the current color, click a saved one to load it, or remove it. They're kept in this browser (`localStorage`). If the server can't be reached the picker still works and the info panel offers a retry.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -138,6 +147,7 @@ What the app can do for its users.
 - [x] Timer: countdown with hours/minutes/seconds and quick presets, start/pause/resume/reset, progress ring, tab title countdown, sound and browser notification when done
 - [x] Calendar: month view with all Indonesian public holidays and cuti bersama (2025–2027, per the SKB 3 Menteri), Sundays in red, day details and a list of the month's holidays
 - [x] Pomodoro: focus / short break / long break cycle with adjustable lengths, auto-advance, labels, progress ring, tab title countdown, sound and browser notification, and a "Today" list of finished sessions (logged through the API, kept in server memory)
+- [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
