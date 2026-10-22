@@ -1,0 +1,74 @@
+.qr-tool {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.qr-output {
+  display: grid;
+  gap: 1rem;
+}
+
+.preview {
+  --pop: var(--highlight);
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 1.25rem;
+  min-height: 320px;
+}
+
+.preview-empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 3rem 1rem;
+  font-weight: 700;
+  color: var(--muted);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.preview-empty svg {
+  color: var(--highlight);
+  animation: twinkle 2.2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  50% { transform: scale(1.2) rotate(15deg); }
+}
+
+/* The finished code lands like a sticker being slapped on. */
+.qr-image {
+  /* Padding sits outside the image so QR modules keep their exact size. */
+  box-sizing: content-box;
+  max-width: calc(100% - 24px);
+  height: auto;
+  padding: 10px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-sm);
+  box-shadow: 5px 5px 0 var(--accent);
+  image-rendering: pixelated;
+  transform: rotate(-2deg);
+  animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-12deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .qr-tool {
+    grid-template-columns: 1fr;
+  }
+
+  .preview {
+    min-height: 220px;
+  }
+}

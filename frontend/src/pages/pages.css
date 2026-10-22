@@ -1,0 +1,383 @@
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4.5vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.lead {
+  margin-top: 0.375rem;
+  color: var(--muted);
+}
+
+.kicker {
+  font-weight: 800;
+  color: var(--highlight);
+}
+
+/* Home */
+
+.hero {
+  position: relative;
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  max-width: 14ch;
+  font-size: clamp(2.2rem, 7vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.hero .lead {
+  margin-top: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.wave {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 2.4s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(16deg); }
+  20%, 40% { transform: rotate(-8deg); }
+}
+
+/* Red marker underline drawn under one word of the headline. */
+.scribble {
+  position: relative;
+  display: inline-block;
+  color: var(--accent);
+}
+
+.scribble svg {
+  position: absolute;
+  left: -2%;
+  bottom: -0.12em;
+  width: 104%;
+  height: 0.32em;
+  overflow: visible;
+}
+
+.scribble path {
+  fill: none;
+  stroke: var(--highlight);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: draw 0.9s 0.3s ease-out forwards;
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Doodles float in the empty space to the right of the hero text. */
+.doodles {
+  position: absolute;
+  inset: -1rem 0 0 55%;
+  pointer-events: none;
+}
+
+.doodle {
+  position: absolute;
+  animation: float 6s ease-in-out infinite;
+}
+
+.doodle-ring {
+  top: 0;
+  right: 18%;
+  width: 96px;
+  stroke: var(--accent);
+}
+
+.doodle-star {
+  top: 42%;
+  right: 2%;
+  width: 70px;
+  fill: var(--highlight);
+  stroke: var(--ink);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  animation: spin 14s linear infinite;
+}
+
+.doodle-squiggle {
+  bottom: 18%;
+  right: 30%;
+  width: 130px;
+  stroke: var(--highlight);
+  animation-delay: -2s;
+}
+
+.doodle-plus {
+  top: 12%;
+  right: 0;
+  width: 30px;
+  stroke: var(--accent);
+  animation-delay: -4s;
+}
+
+.doodle-dots {
+  top: 30%;
+  right: 44%;
+  width: 48px;
+  fill: var(--accent);
+  opacity: 0.5;
+  animation-delay: -1s;
+}
+
+@keyframes float {
+  50% { transform: translateY(-10px) rotate(4deg); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.search-lg {
+  position: relative;
+  max-width: 520px;
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+  background: var(--surface);
+  border-color: var(--ink);
+  box-shadow: 4px 4px 0 var(--accent);
+}
+
+.search-lg:focus-within {
+  border-color: var(--ink);
+  box-shadow: 4px 4px 0 var(--highlight);
+}
+
+.search-lg input {
+  padding: 0.8rem 0;
+}
+
+.tool-section + .tool-section {
+  margin-top: 2.5rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 0.4rem;
+  font-size: 0.8rem;
+  color: var(--on-accent);
+  background: var(--highlight);
+  border-radius: 999px;
+  transform: rotate(-8deg);
+}
+
+.tool-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cards alternate blue and red. */
+.tool-grid > li {
+  --pop: var(--accent);
+  --pop-soft: var(--accent-soft);
+}
+
+.tool-grid > li:nth-child(even) {
+  --pop: var(--highlight);
+  --pop-soft: var(--highlight-soft);
+}
+
+.tool-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  height: 100%;
+  padding: 1.25rem;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 6px 6px 0 var(--pop);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.tool-card:hover {
+  transform: translate(-3px, -3px) rotate(-1deg);
+  box-shadow: 9px 9px 0 var(--pop);
+}
+
+.tool-card:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--pop);
+}
+
+.tool-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--pop, var(--accent));
+  background: var(--pop-soft, var(--accent-soft));
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  transform: rotate(-5deg);
+  transition: transform 0.2s;
+}
+
+.tool-card:hover .tool-icon {
+  transform: rotate(6deg) scale(1.1);
+}
+
+.tool-card-body {
+  display: grid;
+  flex: 1;
+  gap: 0.25rem;
+}
+
+.tool-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.tool-card-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.tool-card-arrow {
+  flex: none;
+  align-self: center;
+  color: var(--pop);
+  transition: transform 0.15s;
+}
+
+.tool-card:hover .tool-card-arrow {
+  transform: translateX(4px);
+}
+
+.empty-state {
+  padding: 2rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--muted);
+  background: var(--surface);
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius);
+}
+
+/* Tool page */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.back-link:hover {
+  color: var(--accent);
+  transform: translateX(-3px);
+}
+
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.tool-header .tool-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  color: var(--on-accent);
+  background: var(--accent);
+  box-shadow: 4px 4px 0 var(--highlight);
+}
+
+.loading {
+  color: var(--muted);
+}
+
+/* 404 */
+
+.not-found {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  padding-top: 5rem;
+  text-align: center;
+}
+
+.not-found-code {
+  margin-bottom: 0.5rem;
+  font-size: clamp(5rem, 22vw, 9rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--bg);
+  -webkit-text-stroke: 3px var(--accent);
+  text-shadow: 6px 6px 0 var(--highlight);
+  transform: rotate(-4deg);
+}
+
+.not-found .btn {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 760px) {
+  .doodles {
+    inset: -1.5rem 0 auto 62%;
+    height: 140px;
+    opacity: 0.6;
+  }
+
+  .doodle-dots,
+  .doodle-squiggle {
+    display: none;
+  }
+
+  .doodle-ring {
+    width: 64px;
+  }
+
+  .doodle-star {
+    top: 60%;
+    width: 48px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 1.5rem 1rem 3rem;
+  }
+}

@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import type { ErrorLevel, QRRequest } from '../api/qr'
+import type { ErrorLevel, QRRequest } from '../../api/qr'
 
 export const MAX_CONTENT_BYTES = 2048
 
@@ -34,9 +34,9 @@ export function QRForm({ loading, onSubmit }: QRFormProps) {
   }
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="card form" onSubmit={handleSubmit}>
       <div className="field">
-        <label htmlFor="content">Text or URL</label>
+        <label htmlFor="content">What should it say?</label>
         <textarea
           id="content"
           rows={5}
@@ -44,11 +44,11 @@ export function QRForm({ loading, onSubmit }: QRFormProps) {
           onChange={(e) => setContent(e.target.value)}
           aria-invalid={tooLong}
           aria-describedby="content-hint"
-          placeholder="https://example.com"
+          placeholder="A link, a message, anything you like"
         />
         <p id="content-hint" className={tooLong ? 'hint hint-error' : 'hint'}>
           {bytes} / {MAX_CONTENT_BYTES} bytes
-          {tooLong && ' - content is too long'}
+          {tooLong && ' - a bit too long, try trimming it'}
         </p>
       </div>
 
@@ -85,7 +85,7 @@ export function QRForm({ loading, onSubmit }: QRFormProps) {
       </div>
 
       <button type="submit" className="btn btn-primary" disabled={!canSubmit}>
-        {loading ? 'Generating...' : 'Generate'}
+        {loading ? 'Making it…' : 'Make my QR code'}
       </button>
     </form>
   )
