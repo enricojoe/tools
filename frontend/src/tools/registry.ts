@@ -54,6 +54,15 @@ export const TOOLS: Tool[] = [
     keywords: ['countdown', 'stopwatch', 'pomodoro', 'minutes', 'alert'],
     Component: lazy(() => import('./timer/TimerTool')),
   },
+  {
+    slug: 'calendar',
+    name: 'Calendar',
+    description: 'Browse the calendar with every Indonesian public holiday and cuti bersama marked.',
+    category: 'Time',
+    icon: 'calendar',
+    keywords: ['holiday', 'libur', 'tanggal merah', 'cuti bersama', 'indonesia', 'date', 'month'],
+    Component: lazy(() => import('./calendar/CalendarTool')),
+  },
 ]
 
 export function findTool(slug: string | undefined): Tool | undefined {
