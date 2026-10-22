@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { generateQR, type QRRequest } from './api/qr'
-import { QRForm } from './components/QRForm'
-import { QRPreview } from './components/QRPreview'
-import './App.css'
+import { generateQR, type QRRequest } from '../../api/qr'
+import { QRForm } from './QRForm'
+import { QRPreview } from './QRPreview'
+import './QRTool.css'
 
 interface Result {
   url: string
   size: number
 }
 
-export default function App() {
+export default function QRTool() {
   const [result, setResult] = useState<Result | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -51,19 +51,16 @@ export default function App() {
   }
 
   return (
-    <main className="page">
-      <h1>QR Code Generator</h1>
-      <p className="lead">Turn any text or URL into a downloadable QR code.</p>
-
+    <div className="qr-tool">
       <QRForm loading={loading} onSubmit={handleSubmit} />
-
-      {error && (
-        <p className="error" role="alert">
-          {error}
-        </p>
-      )}
-
-      {result && <QRPreview url={result.url} size={result.size} />}
-    </main>
+      <div className="qr-output">
+        {error && (
+          <p className="error" role="alert">
+            {error}
+          </p>
+        )}
+        <QRPreview result={result} loading={loading} />
+      </div>
+    </div>
   )
 }
