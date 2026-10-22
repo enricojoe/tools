@@ -46,6 +46,7 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 | Method | Path             | Request                                                                 | Response |
 | ------ | ---------------- | ----------------------------------------------------------------------- | -------- |
 | GET    | `/api/health`    | –                                                                       | `200` `{"status": "ok"}` |
+| GET    | `/api/time`      | –                                                                       | `200` `{"unixMs": int, "iso": string, "timezone": string, "utcOffsetSeconds": int}` (server clock and local zone); `Cache-Control: no-store` |
 | POST   | `/api/qr`        | JSON `{"content": string, "size"?: 128–1024 (default 256), "level"?: "L"\|"M"\|"Q"\|"H" (default "M")}`; content up to 2048 bytes | `200` `image/png`; `400` on invalid input |
 | POST   | `/api/qr/decode` | `multipart/form-data` with an `image` file (PNG, JPEG or GIF, up to 10 MB) | `200` `{"content": string}`; `400` on missing/oversized/unsupported image; `422` if no QR code is found |
 
