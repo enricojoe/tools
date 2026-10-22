@@ -1,6 +1,8 @@
 package router
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 
 	"backend/internal/handler"
@@ -12,6 +14,7 @@ func New() *gin.Engine {
 
 	api := r.Group("/api")
 	api.GET("/health", handler.Health)
+	api.GET("/time", handler.ServerTime(time.Now))
 	api.POST("/qr", handler.QR)
 	api.POST("/qr/decode", handler.QRDecode)
 
