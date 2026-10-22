@@ -20,6 +20,7 @@ func New() *gin.Engine {
 	api.GET("/holidays", handler.Holidays(time.Now))
 	api.POST("/pomodoro/sessions", handler.CreatePomodoroSession(sessions, time.Now))
 	api.GET("/pomodoro/sessions", handler.ListPomodoroSessions(sessions, time.Now))
+	api.GET("/colors", handler.Colors)
 	api.POST("/qr", handler.QR)
 	api.POST("/qr/decode", handler.QRDecode)
 
