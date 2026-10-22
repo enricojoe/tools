@@ -72,6 +72,15 @@ export const TOOLS: Tool[] = [
     keywords: ['focus', 'study', 'work', 'break', 'productivity', 'sessions', 'tomato'],
     Component: lazy(() => import('./pomodoro/PomodoroTool')),
   },
+  {
+    slug: 'color-picker',
+    name: 'Color Picker',
+    description: 'Pick a color and get its HEX, RGB, HSL and CMYK values, contrast, harmonies and shades.',
+    category: 'Design',
+    icon: 'palette',
+    keywords: ['color', 'colour', 'hex', 'rgb', 'hsl', 'palette', 'eyedropper', 'contrast', 'shades'],
+    Component: lazy(() => import('./color-picker/ColorPickerTool')),
+  },
 ]
 
 export function findTool(slug: string | undefined): Tool | undefined {
