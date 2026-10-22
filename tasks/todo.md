@@ -6,3 +6,5 @@
 - [x] Casual look + light/dark toggle -> See tasks/plans/casual-theme.md (branch `frontend/feature/tools-hub-ui`)
 - [x] QR code reader: backend API -> See tasks/plans/qr-reader-api.md (branch `backend/feature/qr-reader-api`)
 - [x] QR code reader: frontend page -> See tasks/plans/qr-reader-page.md (branch `frontend/feature/qr-reader-page`)
+- [x] Alarm & timer: backend server time API -> See tasks/plans/server-time-api.md (branch `backend/feature/server-time-api`)
+- [x] Alarm & timer: frontend pages -> See tasks/plans/alarm-timer-page.md (branch `frontend/feature/alarm-timer`)
