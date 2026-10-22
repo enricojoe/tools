@@ -36,6 +36,24 @@ export const TOOLS: Tool[] = [
     keywords: ['qr', 'scan', 'decode', 'camera', 'barcode', 'upload'],
     Component: lazy(() => import('./qr-reader/QRReaderTool')),
   },
+  {
+    slug: 'alarm',
+    name: 'Alarm',
+    description: 'Set alarms that ring on the server clock, once or on repeat.',
+    category: 'Time',
+    icon: 'alarm',
+    keywords: ['clock', 'wake', 'alert', 'reminder', 'snooze', 'server time'],
+    Component: lazy(() => import('./alarm/AlarmTool')),
+  },
+  {
+    slug: 'timer',
+    name: 'Timer',
+    description: 'Count down from any time, with quick presets and a ring when it hits zero.',
+    category: 'Time',
+    icon: 'timer',
+    keywords: ['countdown', 'stopwatch', 'pomodoro', 'minutes', 'alert'],
+    Component: lazy(() => import('./timer/TimerTool')),
+  },
 ]
 
 export function findTool(slug: string | undefined): Tool | undefined {

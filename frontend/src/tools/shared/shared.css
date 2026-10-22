@@ -1,0 +1,140 @@
+/* Styles shared by the alarm and the timer. */
+
+.time-tool {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 640px;
+}
+
+.time-tool .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.time-tool :is(input[type='text'], input[type='time'], input[type='number']) {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s;
+}
+
+.time-tool :is(input[type='text'], input[type='time'], input[type='number']):hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.time-tool input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.time-tool fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.time-tool legend {
+  padding: 0;
+  margin-bottom: 0.375rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.section-title {
+  font-size: 1.15rem;
+}
+
+.notify-prompt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.error p + .retry-btn {
+  margin-top: 0.6rem;
+}
+
+.retry-btn {
+  padding: 0.35rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Ringing alert. */
+.ring-dialog {
+  width: min(92vw, 420px);
+  padding: 1.5rem;
+  color: var(--text);
+  text-align: center;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 8px 8px 0 var(--highlight);
+}
+
+.ring-dialog::backdrop {
+  background: rgb(15 21 36 / 0.6);
+}
+
+.ring-dialog h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.75rem;
+}
+
+.ring-bell {
+  display: inline-grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 0.5rem;
+  color: var(--on-accent);
+  background: var(--highlight);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  animation: ring-shake 0.6s ease-in-out infinite;
+}
+
+@keyframes ring-shake {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -14deg;
+  }
+  75% {
+    rotate: 14deg;
+  }
+}
+
+.ring-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ring-what {
+  margin-bottom: 0.6rem;
+  font-size: 1.1rem;
+}
+
+.ring-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}

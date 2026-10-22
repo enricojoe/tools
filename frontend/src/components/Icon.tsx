@@ -17,6 +17,14 @@ const PATHS = {
   sun: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
   moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z',
   sparkle: 'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z',
+  alarm: 'M12 7v5l3 2M12 5a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM4 6l3-3M20 6l-3-3',
+  timer: 'M10 2h4M12 8v5l3 2M12 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM19 5l-1.5 1.5',
+  bell: 'M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4',
+  trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3',
+  plus: 'M12 5v14M5 12h14',
+  play: 'M7 4l13 8-13 8z',
+  pause: 'M8 5v14M16 5v14',
+  reset: 'M4 12a8 8 0 1 0 3-6.2M4 4v4h4',
 } as const
 
 export type IconName = keyof typeof PATHS

@@ -26,6 +26,19 @@ Read a QR code two ways:
 
 The decoded text can be copied, or opened if it's a link. Decoding happens on the backend (`POST /api/qr/decode`).
 
+### Alarm (`/tools/alarm`)
+
+A live clock showing the **server's** time (with its timezone), plus alarms set against that clock:
+
+- **Add alarms:** pick a time (HH:MM in the server's timezone), an optional label and optional repeat weekdays. With no weekdays an alarm rings once and switches itself off.
+- **Manage:** toggle alarms on or off and delete them. The list is sorted by next ring and shows "rings in 2h 5m". Alarms are saved in this browser (`localStorage`).
+- **Ringing:** a pop-up with Dismiss and Snooze (5 min), a beep (Web Audio, no audio files) and, if you allow it, a browser notification.
+- **Good to know:** alarms only ring while the page is open (a background tab is fine). If the server clock can't be reached, the page says so and offers a retry instead of falling back to your device's time. The time comes from `GET /api/time`, re-synced every minute and when the tab becomes visible again.
+
+### Timer (`/tools/timer`)
+
+A countdown set with hours, minutes and seconds or the 1, 5, 10 and 25 minute presets. Start, pause, resume and reset it; a progress ring shows what's left and the tab title shows the remaining time while it runs. It counts down to an end timestamp, so a throttled background tab doesn't drift. When it hits zero it beeps and sends a notification (if allowed). It uses your device's clock and only runs while the page is open.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -51,6 +64,7 @@ frontend/
   src/theme/          # Light/dark theme hook and toggle button
   src/pages/          # Home (tool grid), tool page wrapper, 404
   src/tools/          # registry.ts (list of tools) + one folder per tool
+  src/tools/shared/   # Used by alarm and timer: server clock hook, beep + notifications, ring dialog
   src/                # Router setup and global styles
 tasks/
   plans/              # Per-task plans
@@ -94,6 +108,8 @@ What the app can do for its users.
 
 - [x] QR code generator: turn text or a URL into a downloadable PNG, with selectable size and error-correction level
 - [x] QR code reader: read a QR code from an uploaded or dropped image (PNG, JPEG, GIF), or scan it live with the camera; copy the text or open it if it's a link
+- [x] Alarm: live server clock with timezone, one-shot or weekly repeating alarms with labels, snooze, sound and browser notifications (rings only while the page is open)
+- [x] Timer: countdown with hours/minutes/seconds and quick presets, start/pause/resume/reset, progress ring, tab title countdown, sound and browser notification when done
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 

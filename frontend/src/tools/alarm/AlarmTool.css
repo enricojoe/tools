@@ -1,0 +1,222 @@
+.clock-card {
+  --pop: var(--highlight);
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.clock-zone {
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.clock-time {
+  margin: 0;
+  font-size: clamp(2.6rem, 14vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.clock-date,
+.clock-status {
+  color: var(--muted);
+}
+
+.clock-card .error {
+  justify-self: stretch;
+  text-align: left;
+}
+
+.alarm-form {
+  --pop: var(--accent);
+}
+
+.day-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.day-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  font: inherit;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.day-btn:hover {
+  border-color: var(--accent);
+}
+
+.day-btn[aria-pressed='true'] {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--ink);
+}
+
+.alarm-section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.empty {
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.alarm-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.alarm-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-sm);
+  box-shadow: 4px 4px 0 var(--accent);
+}
+
+.alarm-item[data-off='true'] {
+  box-shadow: 4px 4px 0 var(--border);
+}
+
+.alarm-item[data-off='true'] .alarm-main {
+  opacity: 0.6;
+}
+
+.alarm-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.9rem;
+}
+
+.alarm-time {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.alarm-meta {
+  display: grid;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.alarm-meta strong {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.alarm-until {
+  flex-basis: 100%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--highlight);
+}
+
+.alarm-item[data-off='true'] .alarm-until {
+  color: var(--muted);
+}
+
+.alarm-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--muted);
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.icon-btn:hover {
+  color: var(--error);
+  border-color: var(--error);
+}
+
+/* Toggle switch: a real checkbox with role="switch", styled as a pill. */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.75rem;
+  cursor: pointer;
+}
+
+.switch input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.switch-track {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-2);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  transition: background-color 0.15s;
+  pointer-events: none;
+}
+
+.switch-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 1.2rem;
+  height: 1.2rem;
+  background: var(--ink);
+  border-radius: 50%;
+  transition: transform 0.15s;
+}
+
+.switch input:checked + .switch-track {
+  background: var(--accent);
+}
+
+.switch input:checked + .switch-track::after {
+  background: var(--on-accent);
+  transform: translateX(1.25rem);
+}
+
+.switch:has(input:focus-visible) {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
