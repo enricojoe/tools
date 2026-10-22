@@ -16,7 +16,7 @@ backend/
   cmd/server/         # HTTP server entry point (graceful shutdown)
   internal/router/    # Route registration (/api group)
   internal/handler/   # Request handlers + tests
-  internal/qr/        # QR code generation (isolates the QR library)
+  internal/qr/        # QR code generation and decoding (isolates the QR libraries)
 frontend/
   src/api/            # Typed API clients (fetch wrappers)
   src/components/     # Shared UI components (icons)
@@ -66,6 +66,7 @@ In dev, Vite proxies `/api` to `http://localhost:8080`, so start the backend alo
 What the app can do for its users.
 
 - [x] QR code generator: turn text or a URL into a downloadable PNG, with selectable size and error-correction level
+- [x] QR code reader: read a QR code from an uploaded or dropped image (PNG, JPEG, GIF), or scan it live with the camera; copy the text or open it if it's a link
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 

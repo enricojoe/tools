@@ -1,0 +1,166 @@
+.reader-tool {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 640px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Segmented control: two sticker-style tabs. */
+.mode-switch {
+  display: inline-flex;
+  justify-self: start;
+  padding: 4px;
+  gap: 4px;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
+.mode-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1.1rem;
+  font: inherit;
+  font-weight: 800;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.mode-tab:hover {
+  color: var(--text);
+}
+
+.mode-tab[aria-selected='true'] {
+  color: var(--on-accent);
+  background: var(--accent);
+}
+
+.reader-card,
+.reader-result {
+  display: grid;
+  gap: 1rem;
+}
+
+.dropzone {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.5rem;
+  min-height: 240px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.dropzone svg {
+  color: var(--highlight);
+}
+
+.dropzone:hover,
+.dropzone:focus-within,
+.dropzone-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.dropzone:focus-within {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.dropzone-title {
+  font-weight: 800;
+  color: var(--text);
+}
+
+.upload-preview {
+  max-width: 100%;
+  max-height: 320px;
+  border-radius: var(--radius-sm);
+}
+
+.camera {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #000;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-sm);
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Square viewfinder with red corner brackets over a dimmed surround. */
+.scan-frame {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(60%, 260px);
+  aspect-ratio: 1;
+  border: 3px solid var(--highlight);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 999px rgb(0 0 0 / 0.35);
+  pointer-events: none;
+}
+
+.reader-result {
+  --pop: var(--highlight);
+}
+
+.result-title {
+  font-size: 1.15rem;
+}
+
+/* pre keeps the decoded text's whitespace exactly; long lines still wrap. */
+.result-text {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  max-height: 320px;
+  overflow: auto;
+  font: 0.95rem/1.5 ui-monospace, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 760px) {
+  .dropzone {
+    min-height: 180px;
+  }
+
+  .result-actions .btn {
+    flex: 1 1 100%;
+  }
+}
