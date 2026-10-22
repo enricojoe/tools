@@ -2,6 +2,11 @@
 const PATHS = {
   logo: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 17h6M17 14v6',
   qr: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2M14 18h2v2M18 18h2v2h-2',
+  scan: 'M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16',
+  camera: 'M4 8h3l2-3h6l2 3h3v11H4zM12 10a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z',
+  upload: 'M12 16V5M7 10l5-5 5 5M5 20h14',
+  copy: 'M9 9h11v11H9zM5 15V4h11',
+  external: 'M14 4h6v6M20 4l-9 9M18 14v6H4V6h6',
   home: 'M4 11l8-7 8 7M6 9.5V20h12V9.5',
   search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4',
   menu: 'M4 7h16M4 12h16M4 17h16',

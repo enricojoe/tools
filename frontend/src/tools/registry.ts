@@ -27,6 +27,15 @@ export const TOOLS: Tool[] = [
     keywords: ['qr', 'barcode', 'link', 'png'],
     Component: lazy(() => import('./qr/QRTool')),
   },
+  {
+    slug: 'qr-reader',
+    name: 'QR Code Reader',
+    description: 'Scan a QR code from an image or your camera and read what it says.',
+    category: 'Readers',
+    icon: 'scan',
+    keywords: ['qr', 'scan', 'decode', 'camera', 'barcode', 'upload'],
+    Component: lazy(() => import('./qr-reader/QRReaderTool')),
+  },
 ]
 
 export function findTool(slug: string | undefined): Tool | undefined {
