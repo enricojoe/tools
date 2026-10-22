@@ -66,6 +66,7 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 | GET    | `/api/health`    | –                                                                       | `200` `{"status": "ok"}` |
 | GET    | `/api/time`      | –                                                                       | `200` `{"unixMs": int, "iso": string, "timezone": string, "utcOffsetSeconds": int}` (server clock and local zone); `Cache-Control: no-store` |
 | GET    | `/api/holidays` | Query `year`?: 1–9999 (default: current year in the server's timezone) | `200` `{"year": int, "holidays": [{"date": "YYYY-MM-DD", "name": string, "type": "national"\|"collective_leave"}], "availableYears": [int]}`; a year without data has `holidays: []`; `400` on an invalid year |
+| GET    | `/api/colors`   | Query `hex`: 3 or 6 hex digits, optional `#` (`%23`), case-insensitive | `200` `{"hex": "#RRGGBB", "rgb", "hsl", "hsv", "cmyk", "name": string, "exactName": bool, "contrast": {"white", "black", "bestText"}, "harmonies": {"complementary", "analogous", "triadic", "splitComplementary", "tetradic"}, "shades": [9 hex]}` (nearest CSS color name, WCAG 2 contrast ratios, hue-rotation harmonies, shades at lightness 90 to 10); `400` on a missing or invalid `hex`; `Cache-Control: public, max-age=86400` |
 | POST   | `/api/pomodoro/sessions` | JSON `{"kind": "focus"\|"short_break"\|"long_break", "durationSeconds": 1–14400, "label"?: string (up to 100 characters), "completedAt"?: RFC3339 (default: now)}` | `201` `{"id": string, "kind": string, "durationSeconds": int, "label": string, "completedAt": string}`; `400` on invalid input (including `completedAt` more than 1 minute in the future); sessions are kept in memory (newest 10,000) |
 | GET    | `/api/pomodoro/sessions` | Query `date`?: `YYYY-MM-DD` (default: today in the server's timezone) | `200` `{"date": "YYYY-MM-DD", "sessions": [session], "focusCount": int, "focusSeconds": int}` for sessions completed that day in the server's timezone, oldest first; `400` on an invalid date; `Cache-Control: no-store` |
 | POST   | `/api/qr`        | JSON `{"content": string, "size"?: 128–1024 (default 256), "level"?: "L"\|"M"\|"Q"\|"H" (default "M")}`; content up to 2048 bytes | `200` `image/png`; `400` on invalid input |
@@ -81,6 +82,7 @@ backend/
   internal/qr/        # QR code generation and decoding (isolates the QR libraries)
   internal/holiday/   # Indonesian public holidays and cuti bersama per year (from the SKB 3 Menteri)
   internal/pomodoro/  # Pomodoro session log (in-memory store behind a repository interface)
+  internal/color/     # Color conversions, nearest CSS name, WCAG contrast, harmonies and shades
 frontend/
   src/api/            # Typed API clients (fetch wrappers)
   src/components/     # Shared UI components (icons)
