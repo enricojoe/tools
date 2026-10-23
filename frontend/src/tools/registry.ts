@@ -73,6 +73,15 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./pomodoro/PomodoroTool')),
   },
   {
+    slug: 'stopwatch',
+    name: 'Stopwatch',
+    description: 'Time anything to the hundredth of a second, take laps and keep your saved runs.',
+    category: 'Time',
+    icon: 'stopwatch',
+    keywords: ['lap', 'split', 'chrono', 'elapsed', 'time', 'race', 'count up'],
+    Component: lazy(() => import('./stopwatch/StopwatchTool')),
+  },
+  {
     slug: 'color-picker',
     name: 'Color Picker',
     description: 'Pick a color and get its HEX, RGB, HSL and CMYK values, contrast, harmonies and shades.',
