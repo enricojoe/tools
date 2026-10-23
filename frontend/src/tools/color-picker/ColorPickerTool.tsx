@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
+import { ImagePicker } from './ImagePicker'
 import { InfoPanel } from './InfoPanel'
 import { Picker } from './Picker'
 import { SavedColors } from './SavedColors'
@@ -27,6 +28,8 @@ export default function ColorPickerTool() {
       <section className="card cp-card" style={{ '--pop': hex } as CSSProperties} aria-label="Color picker">
         <Picker color={color} hex={hex} onChange={setColor} onHex={pickHex} />
       </section>
+
+      <ImagePicker current={hex} onPick={pickHex} />
 
       <InfoPanel
         hex={hex}

@@ -37,9 +37,12 @@ function rgbToHsv(r: number, g: number, b: number): HsvColor {
   return { h, s: max === 0 ? 0 : delta / max, v: max }
 }
 
-export function hsvToHex(color: HsvColor): string {
-  const [r, g, b] = hsvToRgb(color)
+export function rgbToHex(r: number, g: number, b: number): string {
   return '#' + [r, g, b].map((c) => c.toString(16).padStart(2, '0')).join('').toUpperCase()
+}
+
+export function hsvToHex(color: HsvColor): string {
+  return rgbToHex(...hsvToRgb(color))
 }
 
 /** Parses "#abc", "abc", "#aabbcc" or "aabbcc" into "#AABBCC", or null when it isn't a hex color. */

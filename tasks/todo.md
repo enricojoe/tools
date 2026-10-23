@@ -14,3 +14,4 @@
 - [x] Pomodoro: frontend page -> See tasks/plans/pomodoro-page.md (branch `frontend/feature/pomodoro`)
 - [x] Color picker: frontend page -> See tasks/plans/color-picker-page.md (branch `frontend/feature/color-picker`)
 - [x] Color picker: backend color info API -> See tasks/plans/color-api.md (branch `backend/feature/color-api`)
+- [x] Color picker: pick colors from an image -> See tasks/plans/color-from-image.md (branch `frontend/feature/color-from-image`)
