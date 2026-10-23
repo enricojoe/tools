@@ -4,6 +4,10 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+# Use PORT from the environment, else from .env, else 8080.
+if [ -z "${PORT:-}" ] && [ -f .env ]; then
+  PORT=$(sed -n 's/^PORT=//p' .env | tail -n 1 | tr -d "\"' ")
+fi
 PORT="${PORT:-8080}"
 
 pids=$(lsof -tiTCP:"$PORT" -sTCP:LISTEN || true)

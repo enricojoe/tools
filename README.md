@@ -7,6 +7,7 @@ A collection of web tools in one app, with a Go (Gin) backend and a React (Vite 
 | Part     | Stack                                   |
 | -------- | --------------------------------------- |
 | Backend  | Go 1.26, Gin, go-qrcode (QR generation), gozxing (QR decoding) |
+| Database | PostgreSQL, pgx (driver), sqlx (queries), goose (migrations) |
 | Frontend | React 19, React Router 8, Vite 8, TypeScript 6, oxlint |
 
 ## Tools
@@ -82,7 +83,7 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 
 | Method | Path             | Request                                                                 | Response |
 | ------ | ---------------- | ----------------------------------------------------------------------- | -------- |
-| GET    | `/api/health`    | –                                                                       | `200` `{"status": "ok"}` |
+| GET    | `/api/health`    | –                                                                       | `200` `{"status": "ok", "database": "ok"}`; `503` `{"status": "error", "database": "unreachable"}` when the database doesn't answer a ping |
 | GET    | `/api/time`      | –                                                                       | `200` `{"unixMs": int, "iso": string, "timezone": string, "utcOffsetSeconds": int}` (server clock and local zone); `Cache-Control: no-store` |
 | GET    | `/api/holidays` | Query `year`?: 1–9999 (default: current year in the server's timezone) | `200` `{"year": int, "holidays": [{"date": "YYYY-MM-DD", "name": string, "type": "national"\|"collective_leave"}], "availableYears": [int]}`; a year without data has `holidays: []`; `400` on an invalid year |
 | GET    | `/api/colors`   | Query `hex`: 3 or 6 hex digits, optional `#` (`%23`), case-insensitive | `200` `{"hex": "#RRGGBB", "rgb", "hsl", "hsv", "cmyk", "name": string, "exactName": bool, "contrast": {"white", "black", "bestText"}, "harmonies": {"complementary", "analogous", "triadic", "splitComplementary", "tetradic"}, "shades": [9 hex]}` (nearest CSS color name, WCAG 2 contrast ratios, hue-rotation harmonies, shades at lightness 90 to 10); `400` on a missing or invalid `hex`; `Cache-Control: public, max-age=86400` |
@@ -98,7 +99,11 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 
 ```
 backend/
-  cmd/server/         # HTTP server entry point (graceful shutdown)
+  cmd/server/         # HTTP server entry point: loads config, connects to the DB, applies migrations, graceful shutdown
+  cmd/migrate/        # Migration CLI: status, up, down, create
+  migrations/         # Schema migrations (goose SQL files, embedded in the binary); see its README
+  internal/config/    # Settings from env vars / backend/.env
+  internal/database/  # PostgreSQL connection pool and migration runner
   internal/router/    # Route registration (/api group)
   internal/handler/   # Request handlers + tests
   internal/qr/        # QR code generation and decoding (isolates the QR libraries)
@@ -126,8 +131,20 @@ tasks/
 
 ```bash
 cd backend
-./run.sh                 # stops anything on :8080, then runs go run ./cmd/server (override with PORT)
+cp .env.example .env     # then fill in the PostgreSQL settings (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, ...)
+./run.sh                 # stops anything on PORT (default 8080), then runs go run ./cmd/server
 go test ./...
+```
+
+The server needs the database: it stops with a message if a required setting is missing or PostgreSQL can't be reached, and applies any pending migrations before it starts serving. Variables set in the shell override `.env`.
+
+Every schema change is a SQL file in `backend/migrations/` (see [its README](backend/migrations/README.md)):
+
+```bash
+go run ./cmd/migrate create add_something   # new migrations/NNNNN_add_something.sql
+go run ./cmd/migrate status                 # applied / pending
+go run ./cmd/migrate up                     # apply pending
+go run ./cmd/migrate down                   # roll back the latest
 ```
 
 ### Frontend
@@ -178,6 +195,8 @@ Technical groundwork the features are built on.
 - [x] Frontend ↔ backend connection: typed API client and Vite dev proxy for `/api`
 - [x] Client-side routing and a tool registry, so a new tool is one entry plus its page
 - [x] `backend/run.sh`: frees the server port (stops whatever is listening on it) before starting the backend
+- [x] PostgreSQL connection: settings from env vars / `backend/.env` (`.env.example` lists them), connection pool, database check in `/api/health`
+- [x] Database migrations: goose SQL files in `backend/migrations/`, applied when the server starts, plus `go run ./cmd/migrate status|up|down|create <name>`
 
 ### Working On
 
@@ -198,7 +217,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] Recently used tools on the home page
 - [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)
 - [ ] Frontend tests (Vitest + React Testing Library)
-- [ ] Database layer
+- [ ] Move Pomodoro and Stopwatch sessions from server memory to the database, one feature at a time
 - [ ] Authentication
 - [ ] CI pipeline
 - [ ] Docker / deployment setup
