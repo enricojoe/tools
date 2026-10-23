@@ -10,18 +10,33 @@ import (
 	"syscall"
 	"time"
 
+	"backend/internal/config"
+	"backend/internal/database"
 	"backend/internal/router"
 )
 
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatalf("%v (see backend/.env.example)", err)
 	}
 
+	db, err := database.Open(context.Background(), cfg.DB)
+	if err != nil {
+		log.Fatalf("database: %v", err)
+	}
+	defer db.Close()
+
+	n, err := database.Migrate(context.Background(), db)
+	if err != nil {
+		log.Fatalf("database: %v", err)
+	}
+	log.Printf("database connected, %d migration(s) applied", n)
+
+	port := cfg.Port
 	srv := &http.Server{
 		Addr:              ":" + port,
-		Handler:           router.New(),
+		Handler:           router.New(db),
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
