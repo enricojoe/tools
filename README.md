@@ -57,6 +57,15 @@ A focus timer that works in rounds: focus, then a short break, with a long break
 - **Alerts:** the tab title shows the time left and the phase, and a phase ending beeps and sends a notification (if allowed). It counts down to an end timestamp, so a throttled background tab doesn't drift, and it only runs while the page is open.
 - **Today:** every finished phase is logged through the API (skipped or reset ones aren't), and the page lists today's sessions with the focus count and total focus time. Sessions are kept in the server's memory, so they reset when the server restarts. If the server can't be reached the timer keeps working and the page offers a retry.
 
+### Stopwatch (`/tools/stopwatch`)
+
+A stopwatch that reads to the hundredth of a second:
+
+- **Controls:** Start, Pause, Resume, Reset and Lap. Keyboard shortcuts: `Space` start / pause, `L` lap, `R` reset (ignored while typing in a field).
+- **Laps:** a table with each lap's time and the running total, newest first, with the fastest and slowest lap highlighted once there are two or more.
+- **Accuracy:** it measures from `performance.now()` timestamps, so a throttled background tab doesn't drift, and it only runs while the page is open. The tab title shows the elapsed time while it runs.
+- **Saved runs:** give a run an optional label and save it once it's paused. The page lists recent runs (label, total, laps, when) and lets you delete them. Runs are kept in the server's memory, so they reset when the server restarts. If the server can't be reached the stopwatch keeps working and the list offers a retry.
+
 ### Color Picker (`/tools/color-picker`)
 
 Pick a color and see everything about it:
@@ -151,6 +160,7 @@ What the app can do for its users.
 - [x] Timer: countdown with hours/minutes/seconds and quick presets, start/pause/resume/reset, progress ring, tab title countdown, sound and browser notification when done
 - [x] Calendar: month view with all Indonesian public holidays and cuti bersama (2025–2027, per the SKB 3 Menteri), Sundays in red, day details and a list of the month's holidays
 - [x] Pomodoro: focus / short break / long break cycle with adjustable lengths, auto-advance, labels, progress ring, tab title countdown, sound and browser notification, and a "Today" list of finished sessions (logged through the API, kept in server memory)
+- [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting

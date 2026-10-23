@@ -1,0 +1,144 @@
+.sw-card {
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+}
+
+.sw-readout {
+  margin: 0;
+  font-size: clamp(2.4rem, 14vw, 4.25rem);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.sw-readout[data-status='paused'] {
+  color: var(--muted);
+}
+
+.sw-readout[data-status='running'] {
+  color: var(--highlight);
+}
+
+.sw-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.sw-save {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.sw-label {
+  flex: 1 1 14rem;
+  max-width: 24rem;
+}
+
+.sw-card .error {
+  width: 100%;
+  margin: 0;
+}
+
+.sw-table-wrap {
+  overflow-x: auto;
+}
+
+.sw-laps {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.sw-laps :is(th, td) {
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  border-bottom: 2px solid var(--border);
+}
+
+.sw-laps thead th {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.sw-laps tbody th {
+  font-weight: 800;
+}
+
+.sw-laps :is(td:last-child, thead th:last-child) {
+  text-align: right;
+}
+
+.sw-laps tr[data-mark='fastest'] {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.sw-laps tr[data-mark='slowest'] {
+  color: var(--highlight);
+  background: var(--highlight-soft);
+}
+
+.sw-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.sw-runs-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.sw-runs-card :is(.empty, .muted) {
+  padding: 0.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.sw-run-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sw-run {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.15rem 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.sw-run-label {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.sw-run-total {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.sw-run-meta {
+  grid-column: 1 / 3;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.sw-run-delete {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  padding: 0.4rem 0.6rem;
+}
