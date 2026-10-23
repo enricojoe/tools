@@ -18,3 +18,4 @@
 - [x] Stopwatch: backend sessions API -> See tasks/plans/stopwatch-api.md (branch `backend/feature/stopwatch-api`)
 - [x] Stopwatch: frontend page -> See tasks/plans/stopwatch-page.md (branch `frontend/feature/stopwatch`)
 - [x] Database setup (PostgreSQL, env config, migrations) -> See tasks/plans/database-setup.md (branch `backend/feature/database`)
+- [x] Pomodoro: sessions in PostgreSQL -> See tasks/plans/pomodoro-db.md (branch `backend/feature/pomodoro-db`)

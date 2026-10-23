@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -218,5 +220,29 @@ func TestPomodoroFocusTotalsIgnoreBreaks(t *testing.T) {
 	_, got := getSessions(t, r, "")
 	if len(got.Sessions) != 3 || got.FocusCount != 1 || got.FocusSeconds != 1500 {
 		t.Errorf("got %d sessions, focus %d/%ds; want 3 sessions, focus 1/1500s", len(got.Sessions), got.FocusCount, got.FocusSeconds)
+	}
+}
+
+// failingRepo is a pomodoro.Repository whose database is down.
+type failingRepo struct{}
+
+func (failingRepo) Add(context.Context, pomodoro.Session) error { return errors.New("db down") }
+func (failingRepo) Between(context.Context, time.Time, time.Time) ([]pomodoro.Session, error) {
+	return nil, errors.New("db down")
+}
+
+func TestPomodoroRepositoryErrors(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	now := func() time.Time { return pomodoroNow }
+	r := gin.New()
+	r.POST("/api/pomodoro/sessions", CreatePomodoroSession(failingRepo{}, now))
+	r.GET("/api/pomodoro/sessions", ListPomodoroSessions(failingRepo{}, now))
+
+	if w := postSession(r, `{"kind":"focus","durationSeconds":1500}`); w.Code != http.StatusInternalServerError ||
+		w.Body.String() != `{"error":"could not save session"}` {
+		t.Errorf("POST = %d %s, want 500 could not save session", w.Code, w.Body)
+	}
+	if w, got := getSessions(t, r, ""); w.Code != http.StatusInternalServerError || got.Error != "could not load sessions" {
+		t.Errorf("GET = %d %s, want 500 could not load sessions", w.Code, w.Body)
 	}
 }
