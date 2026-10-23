@@ -14,7 +14,7 @@ import (
 // New builds the HTTP router with all API routes registered.
 func New(db *sqlx.DB) *gin.Engine {
 	r := gin.Default()
-	sessions := pomodoro.NewStore()
+	sessions := pomodoro.NewPostgresRepository(db)
 	stopwatchSessions := stopwatch.NewStore()
 
 	api := r.Group("/api")

@@ -1,11 +1,14 @@
 package pomodoro
 
 import (
+	"context"
 	"reflect"
 	"sync"
 	"testing"
 	"time"
 )
+
+var ctx = context.Background()
 
 func TestKindValid(t *testing.T) {
 	tests := []struct {
@@ -57,11 +60,11 @@ func TestStoreBetween(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			st := NewStore()
 			// Inserted out of chronological order on purpose.
-			st.Add(Session{ID: "c", CompletedAt: at(20)})
-			st.Add(Session{ID: "a", CompletedAt: at(10)})
-			st.Add(Session{ID: "b", CompletedAt: at(5)})
+			st.Add(ctx, Session{ID: "c", CompletedAt: at(20)})
+			st.Add(ctx, Session{ID: "a", CompletedAt: at(10)})
+			st.Add(ctx, Session{ID: "b", CompletedAt: at(5)})
 
-			got := st.Between(tt.from, tt.to)
+			got, _ := st.Between(ctx, tt.from, tt.to)
 			if got == nil {
 				t.Fatal("got nil, want non-nil slice")
 			}
@@ -80,9 +83,9 @@ func TestStoreCap(t *testing.T) {
 	st := &Store{max: 3}
 	base := time.Date(2026, 3, 10, 0, 0, 0, 0, time.UTC)
 	for i := 0; i < 5; i++ {
-		st.Add(Session{ID: string(rune('a' + i)), CompletedAt: base.Add(time.Duration(i) * time.Minute)})
+		st.Add(ctx, Session{ID: string(rune('a' + i)), CompletedAt: base.Add(time.Duration(i) * time.Minute)})
 	}
-	got := st.Between(base, base.Add(time.Hour))
+	got, _ := st.Between(ctx, base, base.Add(time.Hour))
 	if len(got) != 3 || got[0].ID != "c" || got[2].ID != "e" {
 		t.Errorf("got %+v, want the newest three (c, d, e)", got)
 	}
@@ -95,11 +98,11 @@ func TestStoreConcurrent(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 50; i++ {
 		wg.Add(2)
-		go func() { defer wg.Done(); st.Add(Session{CompletedAt: now}) }()
-		go func() { defer wg.Done(); st.Between(from, to) }()
+		go func() { defer wg.Done(); st.Add(ctx, Session{CompletedAt: now}) }()
+		go func() { defer wg.Done(); _, _ = st.Between(ctx, from, to) }()
 	}
 	wg.Wait()
-	if n := len(st.Between(from, to)); n != 50 {
-		t.Errorf("stored %d sessions, want 50", n)
+	if got, _ := st.Between(ctx, from, to); len(got) != 50 {
+		t.Errorf("stored %d sessions, want 50", len(got))
 	}
 }

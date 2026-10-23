@@ -16,6 +16,10 @@ import (
 	"backend/migrations"
 )
 
+// QueryTimeout bounds a single query, so a database that stops answering
+// fails the request instead of hanging it.
+const QueryTimeout = 5 * time.Second
+
 // Open connects to the database described by cfg and checks it with a ping.
 func Open(ctx context.Context, cfg config.DB) (*sqlx.DB, error) {
 	db, err := sqlx.Open("pgx", cfg.DSN())

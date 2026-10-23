@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -98,7 +99,11 @@ func CreatePomodoroSession(repo pomodoro.Repository, now func() time.Time) gin.H
 			Label:           label,
 			CompletedAt:     completedAt,
 		}
-		repo.Add(s)
+		if err := repo.Add(c.Request.Context(), s); err != nil {
+			log.Printf("pomodoro: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not save session"})
+			return
+		}
 		c.JSON(http.StatusCreated, toSessionResponse(s))
 	}
 }
@@ -120,7 +125,12 @@ func ListPomodoroSessions(repo pomodoro.Repository, now func() time.Time) gin.Ha
 		}
 		next := time.Date(day.Year(), day.Month(), day.Day()+1, 0, 0, 0, 0, time.Local)
 
-		sessions := repo.Between(day, next)
+		sessions, err := repo.Between(c.Request.Context(), day, next)
+		if err != nil {
+			log.Printf("pomodoro: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load sessions"})
+			return
+		}
 		out := make([]sessionResponse, 0, len(sessions))
 		focusCount, focusSeconds := 0, 0
 		for _, s := range sessions {
