@@ -71,6 +71,7 @@ A stopwatch that reads to the hundredth of a second:
 Pick a color and see everything about it:
 
 - **Picker:** a saturation/brightness square and a hue slider (mouse, touch or arrow keys), plus a hex field that checks what you type. Browsers that support it also get a "Pick from screen" eyedropper.
+- **From an image:** drop, pick or paste (Ctrl/Cmd+V) an image, then click or tap any spot to take its color; a zoomed loupe shows the pixels and hex under the cursor, and the arrow keys plus Enter work too. The image's main colors are listed as swatches. Everything happens in the browser: the image is never uploaded.
 - **Info:** the nearest CSS color name ("≈" when it isn't exact), HEX, RGB, HSL, HSV and CMYK values with copy buttons, and contrast against white and black with WCAG AA/AAA pass badges and a text preview. This comes from the backend (`GET /api/colors`) and updates shortly after you stop moving.
 - **Shades and harmonies:** complementary, analogous, triadic, split complementary and tetradic colors, and nine shades. Click any swatch to make it the current color.
 - **Saved colors:** save the current color, click a saved one to load it, or remove it. They're kept in this browser (`localStorage`). If the server can't be reached the picker still works and the info panel offers a retry.
@@ -125,7 +126,7 @@ tasks/
 
 ```bash
 cd backend
-go run ./cmd/server      # listens on :8080 (override with PORT)
+./run.sh                 # stops anything on :8080, then runs go run ./cmd/server (override with PORT)
 go test ./...
 ```
 
@@ -160,6 +161,7 @@ What the app can do for its users.
 - [x] Timer: countdown with hours/minutes/seconds and quick presets, start/pause/resume/reset, progress ring, tab title countdown, sound and browser notification when done
 - [x] Calendar: month view with all Indonesian public holidays and cuti bersama (2025–2027, per the SKB 3 Menteri), Sundays in red, day details and a list of the month's holidays
 - [x] Pomodoro: focus / short break / long break cycle with adjustable lengths, auto-advance, labels, progress ring, tab title countdown, sound and browser notification, and a "Today" list of finished sessions (logged through the API, kept in server memory)
+- [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors; pick colors from an image (click a pixel with a zoom loupe, or use its main colors)
 - [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
@@ -175,6 +177,7 @@ Technical groundwork the features are built on.
 - [x] Repo conventions in `CLAUDE.md`: branch naming, commit messages, push workflow
 - [x] Frontend ↔ backend connection: typed API client and Vite dev proxy for `/api`
 - [x] Client-side routing and a tool registry, so a new tool is one entry plus its page
+- [x] `backend/run.sh`: frees the server port (stops whatever is listening on it) before starting the backend
 
 ### Working On
 
