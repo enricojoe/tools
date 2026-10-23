@@ -14,3 +14,5 @@
 - [x] Pomodoro: frontend page -> See tasks/plans/pomodoro-page.md (branch `frontend/feature/pomodoro`)
 - [x] Color picker: frontend page -> See tasks/plans/color-picker-page.md (branch `frontend/feature/color-picker`)
 - [x] Color picker: backend color info API -> See tasks/plans/color-api.md (branch `backend/feature/color-api`)
+- [x] Stopwatch: backend sessions API -> See tasks/plans/stopwatch-api.md (branch `backend/feature/stopwatch-api`)
+- [x] Stopwatch: frontend page -> See tasks/plans/stopwatch-page.md (branch `frontend/feature/stopwatch`)
