@@ -57,6 +57,15 @@ A focus timer that works in rounds: focus, then a short break, with a long break
 - **Alerts:** the tab title shows the time left and the phase, and a phase ending beeps and sends a notification (if allowed). It counts down to an end timestamp, so a throttled background tab doesn't drift, and it only runs while the page is open.
 - **Today:** every finished phase is logged through the API (skipped or reset ones aren't), and the page lists today's sessions with the focus count and total focus time. Sessions are kept in the server's memory, so they reset when the server restarts. If the server can't be reached the timer keeps working and the page offers a retry.
 
+### Stopwatch (`/tools/stopwatch`)
+
+A stopwatch that reads to the hundredth of a second:
+
+- **Controls:** Start, Pause, Resume, Reset and Lap. Keyboard shortcuts: `Space` start / pause, `L` lap, `R` reset (ignored while typing in a field).
+- **Laps:** a table with each lap's time and the running total, newest first, with the fastest and slowest lap highlighted once there are two or more.
+- **Accuracy:** it measures from `performance.now()` timestamps, so a throttled background tab doesn't drift, and it only runs while the page is open. The tab title shows the elapsed time while it runs.
+- **Saved runs:** give a run an optional label and save it once it's paused. The page lists recent runs (label, total, laps, when) and lets you delete them. Runs are kept in the server's memory, so they reset when the server restarts. If the server can't be reached the stopwatch keeps working and the list offers a retry.
+
 ### Color Picker (`/tools/color-picker`)
 
 Pick a color and see everything about it:
@@ -79,6 +88,9 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 | GET    | `/api/colors`   | Query `hex`: 3 or 6 hex digits, optional `#` (`%23`), case-insensitive | `200` `{"hex": "#RRGGBB", "rgb", "hsl", "hsv", "cmyk", "name": string, "exactName": bool, "contrast": {"white", "black", "bestText"}, "harmonies": {"complementary", "analogous", "triadic", "splitComplementary", "tetradic"}, "shades": [9 hex]}` (nearest CSS color name, WCAG 2 contrast ratios, hue-rotation harmonies, shades at lightness 90 to 10); `400` on a missing or invalid `hex`; `Cache-Control: public, max-age=86400` |
 | POST   | `/api/pomodoro/sessions` | JSON `{"kind": "focus"\|"short_break"\|"long_break", "durationSeconds": 1–14400, "label"?: string (up to 100 characters), "completedAt"?: RFC3339 (default: now)}` | `201` `{"id": string, "kind": string, "durationSeconds": int, "label": string, "completedAt": string}`; `400` on invalid input (including `completedAt` more than 1 minute in the future); sessions are kept in memory (newest 10,000) |
 | GET    | `/api/pomodoro/sessions` | Query `date`?: `YYYY-MM-DD` (default: today in the server's timezone) | `200` `{"date": "YYYY-MM-DD", "sessions": [session], "focusCount": int, "focusSeconds": int}` for sessions completed that day in the server's timezone, oldest first; `400` on an invalid date; `Cache-Control: no-store` |
+| POST   | `/api/stopwatch/sessions` | JSON `{"label"?: string (up to 100 characters), "elapsedMs": 1–86400000, "laps"?: [int] (lap durations in ms, each ≥ 1, at most 1000, sum ≤ elapsedMs), "completedAt"?: RFC3339 (default: now)}` | `201` `{"id": string, "label": string, "elapsedMs": int, "laps": [int], "completedAt": string}`; `400` on invalid input (including `completedAt` more than 1 minute in the future); sessions are kept in memory (newest 1,000) |
+| GET    | `/api/stopwatch/sessions` | Query `limit`?: 1–200 (default 50) | `200` `{"sessions": [session]}` newest first (by `completedAt`); `400` on an invalid limit; `Cache-Control: no-store` |
+| DELETE | `/api/stopwatch/sessions/:id` | – | `204` on success; `404` if the session does not exist |
 | POST   | `/api/qr`        | JSON `{"content": string, "size"?: 128–1024 (default 256), "level"?: "L"\|"M"\|"Q"\|"H" (default "M")}`; content up to 2048 bytes | `200` `image/png`; `400` on invalid input |
 | POST   | `/api/qr/decode` | `multipart/form-data` with an `image` file (PNG, JPEG or GIF, up to 10 MB) | `200` `{"content": string}`; `400` on missing/oversized/unsupported image; `422` if no QR code is found |
 
@@ -92,6 +104,7 @@ backend/
   internal/qr/        # QR code generation and decoding (isolates the QR libraries)
   internal/holiday/   # Indonesian public holidays and cuti bersama per year (from the SKB 3 Menteri)
   internal/pomodoro/  # Pomodoro session log (in-memory store behind a repository interface)
+  internal/stopwatch/ # Stopwatch session log (in-memory store behind a repository interface)
   internal/color/     # Color conversions, nearest CSS name, WCAG contrast, harmonies and shades
 frontend/
   src/api/            # Typed API clients (fetch wrappers)
@@ -149,6 +162,8 @@ What the app can do for its users.
 - [x] Calendar: month view with all Indonesian public holidays and cuti bersama (2025–2027, per the SKB 3 Menteri), Sundays in red, day details and a list of the month's holidays
 - [x] Pomodoro: focus / short break / long break cycle with adjustable lengths, auto-advance, labels, progress ring, tab title countdown, sound and browser notification, and a "Today" list of finished sessions (logged through the API, kept in server memory)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors; pick colors from an image (click a pixel with a zoom loupe, or use its main colors)
+- [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
+- [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 

@@ -15,3 +15,5 @@
 - [x] Color picker: frontend page -> See tasks/plans/color-picker-page.md (branch `frontend/feature/color-picker`)
 - [x] Color picker: backend color info API -> See tasks/plans/color-api.md (branch `backend/feature/color-api`)
 - [x] Color picker: pick colors from an image -> See tasks/plans/color-from-image.md (branch `frontend/feature/color-from-image`)
+- [x] Stopwatch: backend sessions API -> See tasks/plans/stopwatch-api.md (branch `backend/feature/stopwatch-api`)
+- [x] Stopwatch: frontend page -> See tasks/plans/stopwatch-page.md (branch `frontend/feature/stopwatch`)

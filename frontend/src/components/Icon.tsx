@@ -27,6 +27,8 @@ const PATHS = {
   reset: 'M4 12a8 8 0 1 0 3-6.2M4 4v4h4',
   calendar: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4M8 14h2M14 14h2M8 17h2',
   skip: 'M5 4l10 8-10 8zM19 5v14',
+  stopwatch: 'M10 2h4M12 5V3M12 7a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 11v4l2 1.5M19 6l-1.5 1.5',
+  flag: 'M5 21V4M5 4h13l-3 4 3 4H5',
   tomato: 'M12 8c-4.5 0-8 2.6-8 6.5S7.5 21 12 21s8-2.6 8-6.5S16.5 8 12 8zM12 8V4M12 6l-3-2M12 6l3-2',
   chevronLeft: 'M15 5l-7 7 7 7',
   chevronRight: 'M9 5l7 7-7 7',
