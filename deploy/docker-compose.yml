@@ -1,0 +1,11 @@
+# Production compose file. The release workflow copies it to DEPLOY_PATH on the
+# server and runs it with TOOLS_IMAGE set to the released version.
+# Settings come from .env next to this file on the server (see deploy/README.md).
+services:
+  app:
+    # deploy.sh sets the released version; .env's TOOLS_IMAGE is for running compose by hand.
+    image: ${TOOLS_IMAGE:?set TOOLS_IMAGE in .env, e.g. <dockerhub-user>/tools:latest}
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${APP_PORT:-8080}:8080"

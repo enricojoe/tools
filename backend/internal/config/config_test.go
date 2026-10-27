@@ -25,6 +25,9 @@ func TestFromEnvDefaults(t *testing.T) {
 	if cfg.DB.SSLMode != "require" {
 		t.Errorf("DB.SSLMode = %q, want require", cfg.DB.SSLMode)
 	}
+	if cfg.StaticDir != "" {
+		t.Errorf("StaticDir = %q, want empty", cfg.StaticDir)
+	}
 }
 
 func TestFromEnvInvalid(t *testing.T) {
