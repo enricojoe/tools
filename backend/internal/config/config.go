@@ -17,7 +17,9 @@ import (
 // Config holds every setting the backend reads at startup.
 type Config struct {
 	Port string
-	DB   DB
+	// StaticDir is the built frontend to serve next to the API; empty serves the API only.
+	StaticDir string
+	DB        DB
 }
 
 // DB holds the PostgreSQL connection settings.
@@ -56,7 +58,8 @@ func FromEnv(getenv func(string) string) (Config, error) {
 	}
 
 	cfg := Config{
-		Port: get("PORT", "8080"),
+		Port:      get("PORT", "8080"),
+		StaticDir: get("STATIC_DIR", ""),
 		DB: DB{
 			Host:     get("DB_HOST", ""),
 			User:     get("DB_USER", ""),

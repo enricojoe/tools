@@ -1,0 +1,35 @@
+# Runs the app image with a local PostgreSQL: docker compose up --build
+# Then open http://localhost:8080.
+services:
+  app:
+    build: .
+    image: tools:local
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_USER: tools
+      DB_PASSWORD: tools
+      DB_NAME: tools
+      DB_SSLMODE: disable
+      TZ: Asia/Jakarta
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: tools
+      POSTGRES_PASSWORD: tools
+      POSTGRES_DB: tools
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tools -d tools"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  db-data:
