@@ -14,7 +14,7 @@ jobs:
     name: Docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
@@ -55,7 +55,7 @@ jobs:
     env:
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '~/tools' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up SSH
         env:
@@ -83,7 +83,7 @@ jobs:
         run: |
           # shellcheck disable=SC2029 # DEPLOY_PATH is meant to expand here
           ssh server "mkdir -p $DEPLOY_PATH"
-          scp deploy/docker-compose.yml deploy/deploy.sh "server:$DEPLOY_PATH/"
+          scp deploy/compose.prod.yml deploy/deploy.sh "server:$DEPLOY_PATH/"
 
       - name: Pull and start
         env:

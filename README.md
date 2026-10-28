@@ -102,7 +102,7 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 Dockerfile            # One image: builds the frontend and backend, serves both from the Go server
 docker-compose.yml    # The image plus a local PostgreSQL
 .github/workflows/    # ci.yml: tests on pull requests; release.yml: image build, push and deploy on v* tags
-deploy/               # Production compose file and deploy script used on the server; see its README
+deploy/               # Server side: compose.prod.yml (behind Traefik) and deploy.sh; see its README
 backend/
   cmd/server/         # HTTP server entry point: loads config, connects to the DB, applies migrations, graceful shutdown
   cmd/migrate/        # Migration CLI: status, up, down, create
@@ -184,7 +184,7 @@ Two workflows run on GitHub's free runners:
 | Workflow | Runs on | What it does |
 | -------- | ------- | ------------ |
 | `.github/workflows/ci.yml` | Pull requests to `main` | Backend `go vet` + tests (with a PostgreSQL service, so the database tests run) and frontend lint + build, side by side. No image. |
-| `.github/workflows/release.yml` | Tags `v*` (e.g. `v1.2.0`) | Builds the image and pushes it as `1.2.0`, `1.2` and `latest`, then deploys it: SSH into the server, pull that version, `docker compose up` and wait for the health check. No tests: they ran on the pull request. |
+| `.github/workflows/release.yml` | Tags `v*` (e.g. `v1.2.0`) | Builds the image and pushes it as `1.2.0`, `1.2` and `latest`, then deploys it: SSH into the server, pull that version, `docker compose up` (Traefik routes the domain to it) and wait for the health check. No tests: they ran on the pull request. |
 
 Merging to `main` publishes nothing; only a tag does. Images go to Docker Hub as `<username>/tools`. Set this up once under Settings → Secrets and variables → Actions: a repository **variable** `DOCKERHUB_USERNAME` and a **secret** `DOCKERHUB_TOKEN` (a Docker Hub access token with Read & Write).
 
@@ -233,7 +233,7 @@ Technical groundwork the features are built on.
 - [x] PostgreSQL connection: settings from env vars / `backend/.env` (`.env.example` lists them), connection pool, database check in `/api/health`
 - [x] Database migrations: goose SQL files in `backend/migrations/`, applied when the server starts, plus `go run ./cmd/migrate status|up|down|create <name>`
 - [x] Docker: one image (Go server serves the API and the built frontend), `docker-compose.yml` with PostgreSQL for local runs
-- [x] CI on GitHub Actions: backend tests with PostgreSQL and frontend lint + build on pull requests; on `v*` tags the image is built, pushed to Docker Hub and deployed to the server over SSH with Docker Compose
+- [x] CI on GitHub Actions: backend tests with PostgreSQL and frontend lint + build on pull requests; on `v*` tags the image is built, pushed to Docker Hub and deployed to the server over SSH with Docker Compose, behind Traefik
 
 ### Working On
 
@@ -256,5 +256,4 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] Frontend tests (Vitest + React Testing Library)
 - [ ] Move Stopwatch runs from server memory to the database, like Pomodoro
 - [ ] Authentication
-- [ ] HTTPS in front of the app (e.g. Caddy or Nginx with Let's Encrypt) once it's on a domain
 - [ ] Replace the Vite template text in `frontend/README.md` with a pointer to the root README

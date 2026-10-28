@@ -20,3 +20,4 @@
 - [x] Database setup (PostgreSQL, env config, migrations) -> See tasks/plans/database-setup.md (branch `backend/feature/database`)
 - [x] Pomodoro: sessions in PostgreSQL -> See tasks/plans/pomodoro-db.md (branch `backend/feature/pomodoro-db`)
 - [x] Docker image + CI on GitHub Actions -> See tasks/plans/docker-ci.md (branch `project/chore/docker-ci`)
+- [x] Deploy behind Traefik, rename server compose file -> See tasks/plans/traefik-deploy.md (branch `project/chore/traefik-deploy`)

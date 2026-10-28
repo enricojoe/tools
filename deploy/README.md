@@ -3,7 +3,7 @@
 On each `v*` tag, `.github/workflows/release.yml` builds the image, then the `deploy` job:
 
 1. SSHes into the server.
-2. Copies `deploy/docker-compose.yml` and `deploy/deploy.sh` to `DEPLOY_PATH`.
+2. Copies `deploy/compose.prod.yml` and `deploy/deploy.sh` to `DEPLOY_PATH`.
 3. Runs `deploy.sh`, which pulls the new version, runs `docker compose up -d --wait --force-recreate` (the container is always replaced; it waits for the health check and fails the job if the app doesn't come up) and removes unused images. It uses the server's own Docker Hub login, so no token is sent to the server.
 
 ## Server setup (once)
@@ -25,7 +25,7 @@ On each `v*` tag, `.github/workflows/release.yml` builds the image, then the `de
    mkdir -p ~/tools && nano ~/tools/.env && chmod 600 ~/tools/.env
    ```
    ```dotenv
-   DB_HOST=...
+   DB_HOST=...            # the database container's name when it's on DB_NETWORK
    DB_PORT=5432
    DB_USER=...
    DB_PASSWORD=...
@@ -34,9 +34,30 @@ On each `v*` tag, `.github/workflows/release.yml` builds the image, then the `de
    TZ=Asia/Jakarta
    # The image for running compose by hand; deploys override it with the released version
    TOOLS_IMAGE=<dockerhub-user>/tools:latest
-   # Optional: the port on the server (default 8080)
-   APP_PORT=8080
+   # Lets you run `docker compose ps|logs` in this folder by hand
+   COMPOSE_FILE=compose.prod.yml
+
+   # Traefik (see "Traefik" below)
+   TOOLS_DOMAIN=tools.example.com
+   TRAEFIK_NETWORK=traefik_web
+   DB_NETWORK=db_network
+   TRAEFIK_ENTRYPOINT=websecure
+   TRAEFIK_CERTRESOLVER=letsencrypt
    ```
+
+## Traefik
+
+The app publishes no port: Traefik, already running on the server, sends `https://TOOLS_DOMAIN` to the container on port 8080 over Traefik's Docker network. The four `.env` values must match your Traefik setup:
+
+| `.env` | What it is | How to find it |
+| ------ | ---------- | -------------- |
+| `TOOLS_DOMAIN` | The app's domain; its DNS A record must point to the server | Your DNS settings |
+| `TRAEFIK_NETWORK` | The Docker network Traefik is on (default `traefik_web`) | `docker network ls`, or `docker inspect <traefik-container> --format '{{json .NetworkSettings.Networks}}'` |
+| `DB_NETWORK` | Not Traefik: the Docker network the PostgreSQL container is on (default `db_network`), so the app reaches it by container name | `docker inspect <postgres-container> --format '{{json .NetworkSettings.Networks}}'` |
+| `TRAEFIK_ENTRYPOINT` | Traefik's HTTPS entrypoint (default `websecure`) | `--entrypoints.<name>.address=:443` in Traefik's command or `traefik.yml` |
+| `TRAEFIK_CERTRESOLVER` | Traefik's Let's Encrypt resolver (default `letsencrypt`) | `--certificatesresolvers.<name>.acme...` in the same place |
+
+Redirecting HTTP to HTTPS is Traefik's job (on its `web` entrypoint), not this file's.
 
 ## GitHub setup (once)
 

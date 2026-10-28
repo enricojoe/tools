@@ -1,0 +1,30 @@
+# Production compose file. The release workflow copies it to DEPLOY_PATH on the
+# server and runs it with TOOLS_IMAGE set to the released version.
+# Settings come from .env next to this file on the server (see deploy/README.md).
+# Traefik routes TOOLS_DOMAIN to the app over its Docker network; no port is published.
+services:
+  app:
+    # deploy.sh sets the released version; .env's TOOLS_IMAGE is for running compose by hand.
+    image: ${TOOLS_IMAGE:?set TOOLS_IMAGE in .env, e.g. <dockerhub-user>/tools:latest}
+    container_name: tools
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - traefik_web
+      - db_network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK:-traefik_web}
+      - traefik.http.routers.tools.rule=Host(`${TOOLS_DOMAIN:?set TOOLS_DOMAIN in .env, e.g. tools.e>
+      - traefik.http.routers.tools.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.tools.tls=true
+      - traefik.http.routers.tools.tls.certresolver=${TRAEFIK_CERTRESOLVER:-letsencrypt}
+      - traefik.http.services.tools.loadbalancer.server.port=8080
+
+networks:
+  traefik_web:
+    external: true
+    name: ${TRAEFIK_NETWORK:-traefik_web}
+  db_network:
+    external: true
+    name: ${DB_NETWORK:-db_network}
