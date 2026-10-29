@@ -15,7 +15,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK:-traefik_web}
-      - traefik.http.routers.tools.rule=Host(`${TOOLS_DOMAIN:?set TOOLS_DOMAIN in .env, e.g. tools.e>
+      - traefik.http.routers.tools.rule=Host(`${TOOLS_DOMAIN:?set TOOLS_DOMAIN in .env, e.g. tools.example.com}`)
       - traefik.http.routers.tools.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
       - traefik.http.routers.tools.tls=true
       - traefik.http.routers.tools.tls.certresolver=${TRAEFIK_CERTRESOLVER:-letsencrypt}
