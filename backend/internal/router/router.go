@@ -33,6 +33,8 @@ func New(db *sqlx.DB, staticDir string) *gin.Engine {
 	api.GET("/stopwatch/sessions", handler.ListStopwatchSessions(stopwatchSessions))
 	api.DELETE("/stopwatch/sessions/:id", handler.DeleteStopwatchSession(stopwatchSessions))
 	api.GET("/colors", handler.Colors)
+	api.GET("/units", handler.Units)
+	api.GET("/units/convert", handler.ConvertUnits)
 	api.POST("/qr", handler.QR)
 	api.POST("/qr/decode", handler.QRDecode)
 

@@ -90,6 +90,18 @@ export const TOOLS: Tool[] = [
     keywords: ['color', 'colour', 'hex', 'rgb', 'hsl', 'palette', 'eyedropper', 'contrast', 'shades'],
     Component: lazy(() => import('./color-picker/ColorPickerTool')),
   },
+  {
+    slug: 'unit-converter',
+    name: 'Unit Converter',
+    description: 'Convert length, weight, temperature, volume, speed, data and more between metric and imperial units.',
+    category: 'Converters',
+    icon: 'ruler',
+    keywords: [
+      'length', 'weight', 'mass', 'temperature', 'volume', 'area', 'speed', 'data', 'bytes',
+      'pressure', 'energy', 'metric', 'imperial', 'convert', 'units',
+    ],
+    Component: lazy(() => import('./unit-converter/UnitConverterTool')),
+  },
 ]
 
 export function findTool(slug: string | undefined): Tool | undefined {
