@@ -78,6 +78,14 @@ Pick a color and see everything about it:
 - **Shades and harmonies:** complementary, analogous, triadic, split complementary and tetradic colors, and nine shades. Click any swatch to make it the current color.
 - **Saved colors:** save the current color, click a saved one to load it, or remove it. They're kept in this browser (`localStorage`). If the server can't be reached the picker still works and the info panel offers a retry.
 
+### Unit Converter (`/tools/unit-converter`)
+
+Convert between units in 10 categories: length, mass, temperature, volume (US customary), area, speed, time, data (SI `kB` and binary `KiB`), pressure and energy.
+
+- **Convert:** pick a category, type a value, choose the from and to units (or swap them). The result is shown large with a copy button, and the value in every unit of the category is listed below. Click a row to make it the target unit.
+- **Remembers:** the last category and each category's unit pair are saved in this browser (`localStorage`).
+- **Good to know:** conversions use exact definitional factors (e.g. 1 in = 0.0254 m, 1 lb = 0.45359237 kg). Temperatures below absolute zero are rejected. Conversion happens on the backend (`GET /api/units`, `GET /api/units/convert`), and if the server can't be reached the page offers a retry.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -88,6 +96,8 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 | GET    | `/api/time`      | –                                                                       | `200` `{"unixMs": int, "iso": string, "timezone": string, "utcOffsetSeconds": int}` (server clock and local zone); `Cache-Control: no-store` |
 | GET    | `/api/holidays` | Query `year`?: 1–9999 (default: current year in the server's timezone) | `200` `{"year": int, "holidays": [{"date": "YYYY-MM-DD", "name": string, "type": "national"\|"collective_leave"}], "availableYears": [int]}`; a year without data has `holidays: []`; `400` on an invalid year |
 | GET    | `/api/colors`   | Query `hex`: 3 or 6 hex digits, optional `#` (`%23`), case-insensitive | `200` `{"hex": "#RRGGBB", "rgb", "hsl", "hsv", "cmyk", "name": string, "exactName": bool, "contrast": {"white", "black", "bestText"}, "harmonies": {"complementary", "analogous", "triadic", "splitComplementary", "tetradic"}, "shades": [9 hex]}` (nearest CSS color name, WCAG 2 contrast ratios, hue-rotation harmonies, shades at lightness 90 to 10); `400` on a missing or invalid `hex`; `Cache-Control: public, max-age=86400` |
+| GET    | `/api/units`    | –                                                                       | `200` `{"categories": [{"id": string, "name": string, "units": [{"id": string, "name": string, "symbol": string}]}]}` (10 categories, in display order); `Cache-Control: public, max-age=86400` |
+| GET    | `/api/units/convert` | Query `category`, `from` (a unit id of that category), `value` (finite, \|value\| ≤ 1e15) | `200` `{"category": string, "from": string, "value": number, "results": [{"unit": string, "value": number}]}` (the value in every unit of the category, unrounded); `400` on a missing or unknown category or unit, an invalid value, or a temperature below absolute zero; `Cache-Control: public, max-age=86400` |
 | POST   | `/api/pomodoro/sessions` | JSON `{"kind": "focus"\|"short_break"\|"long_break", "durationSeconds": 1–14400, "label"?: string (up to 100 characters), "completedAt"?: RFC3339 (default: now)}` | `201` `{"id": string, "kind": string, "durationSeconds": int, "label": string, "completedAt": string}`; `400` on invalid input (including `completedAt` more than 1 minute in the future); `500` if the database fails; sessions are saved in the `pomodoro_sessions` table |
 | GET    | `/api/pomodoro/sessions` | Query `date`?: `YYYY-MM-DD` (default: today in the server's timezone) | `200` `{"date": "YYYY-MM-DD", "sessions": [session], "focusCount": int, "focusSeconds": int}` for sessions completed that day in the server's timezone, oldest first; `400` on an invalid date; `Cache-Control: no-store` |
 | POST   | `/api/stopwatch/sessions` | JSON `{"label"?: string (up to 100 characters), "elapsedMs": 1–86400000, "laps"?: [int] (lap durations in ms, each ≥ 1, at most 1000, sum ≤ elapsedMs), "completedAt"?: RFC3339 (default: now)}` | `201` `{"id": string, "label": string, "elapsedMs": int, "laps": [int], "completedAt": string}`; `400` on invalid input (including `completedAt` more than 1 minute in the future); sessions are kept in memory (newest 1,000) |
@@ -116,6 +126,7 @@ backend/
   internal/pomodoro/  # Pomodoro session log: PostgreSQL repository (in-memory store for handler tests)
   internal/stopwatch/ # Stopwatch session log (in-memory store behind a repository interface)
   internal/color/     # Color conversions, nearest CSS name, WCAG contrast, harmonies and shades
+  internal/units/     # Unit table (10 categories) and conversions
 frontend/
   src/api/            # Typed API clients (fetch wrappers)
   src/components/     # Shared UI components (icons)
@@ -216,6 +227,7 @@ What the app can do for its users.
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors; pick colors from an image (click a pixel with a zoom loupe, or use its main colors)
 - [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
+- [x] Unit converter: 10 categories (length, mass, temperature, volume, area, speed, time, data, pressure, energy), from/to units with swap, copyable result, the value in every unit of the category, remembered choices
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
@@ -249,7 +261,7 @@ _None right now._
 
 Claude's suggestions for next steps, for the owner to accept or drop.
 
-- [ ] More tools: JSON formatter, Base64 encode/decode, password generator, unit converter, image resizer
+- [ ] More tools: JSON formatter, Base64 encode/decode, password generator, image resizer
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] Recently used tools on the home page
 - [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)

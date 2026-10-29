@@ -36,6 +36,8 @@ const PATHS = {
     'M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1.2-1-1.6-1-2.7 0-1 .8-1.6 1.8-1.6H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8zM7.5 11h.01M10 7.5h.01M14.5 7.5h.01',
   image: 'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M15 8.5h.01',
   eyedropper: 'M14 9l-9 9v3h3l9-9M13 6l5 5M15 4a2.1 2.1 0 0 1 3 0l2 2a2.1 2.1 0 0 1 0 3l-2 2-5-5z',
+  swap: 'M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7',
+  ruler: 'M3 9h18v6H3zM7 9v3M11 9v2M15 9v3M19 9v2',
 } as const
 
 export type IconName = keyof typeof PATHS
