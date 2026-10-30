@@ -28,6 +28,15 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./qr/QRTool')),
   },
   {
+    slug: 'lorem-ipsum',
+    name: 'Lorem Ipsum Generator',
+    description: 'Make placeholder text by the paragraph, sentence or word, as plain text or HTML.',
+    category: 'Generators',
+    icon: 'text',
+    keywords: ['lorem', 'ipsum', 'placeholder', 'dummy', 'filler', 'text', 'latin', 'paragraph', 'words'],
+    Component: lazy(() => import('./lorem-ipsum/LoremIpsumTool')),
+  },
+  {
     slug: 'qr-reader',
     name: 'QR Code Reader',
     description: 'Scan a QR code from an image or your camera and read what it says.',

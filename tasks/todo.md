@@ -23,3 +23,4 @@
 - [x] Deploy behind Traefik, rename server compose file -> See tasks/plans/traefik-deploy.md (branch `project/chore/traefik-deploy`)
 - [x] Unit converter: backend API + frontend page -> See tasks/plans/unit-converter.md (branch `project/feature/unit-converter`)
 - [x] Unit converter: more playful UI -> See tasks/plans/unit-converter-playful-ui.md (branch `frontend/feature/unit-converter-playful-ui`)
+- [x] Lorem ipsum generator: backend API + frontend page -> See tasks/plans/lorem-ipsum.md (branch `project/feature/lorem-ipsum`)

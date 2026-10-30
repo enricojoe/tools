@@ -35,6 +35,7 @@ func New(db *sqlx.DB, staticDir string) *gin.Engine {
 	api.GET("/colors", handler.Colors)
 	api.GET("/units", handler.Units)
 	api.GET("/units/convert", handler.ConvertUnits)
+	api.GET("/lorem", handler.Lorem)
 	api.POST("/qr", handler.QR)
 	api.POST("/qr/decode", handler.QRDecode)
 
