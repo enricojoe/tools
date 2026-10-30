@@ -264,6 +264,15 @@ _None right now._
 Claude's suggestions for next steps, for the owner to accept or drop.
 
 - [ ] More tools: JSON formatter, Base64 encode/decode, password generator, image resizer
+- [ ] Date / working-day calculator: days between two dates or "add N working days", skipping weekends and the Indonesian holidays and cuti bersama from `internal/holiday`
+- [ ] Long-weekend finder (harpitnas): upcoming long weekends and which leave days bridge them, from the same holiday data
+- [ ] Short links + QR: shorten a URL (saved in PostgreSQL) with a QR code for it
+- [ ] Split bill: items per person plus tax (PB1 / PPN) and service charge, each person's share in Rupiah
+- [ ] Rupiah terbilang: a number in Indonesian words ("seratus dua puluh lima ribu rupiah") for invoices and receipts
+- [ ] World clock / timezone converter, reusing `/api/time` and the server clock hook
+- [ ] Developer utilities: Unix timestamp ↔ date, UUID generator, hash generator (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron expression explainer, text diff, regex tester
+- [ ] Text tools: word / character counter with reading time, case converter, lorem ipsum generator
+- [ ] Fun / random: spin wheel / random picker, team splitter, dice and coin flip
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] Recently used tools on the home page
 - [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)
