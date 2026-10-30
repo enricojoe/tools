@@ -88,6 +88,16 @@ Convert between units in 10 categories: length, mass, temperature, volume (US cu
 - **Remembers:** the last category and each category's unit pair are saved in this browser (`localStorage`).
 - **Good to know:** conversions use exact definitional factors (e.g. 1 in = 0.0254 m, 1 lb = 0.45359237 kg). Temperatures below absolute zero are rejected. Conversion happens on the backend (`GET /api/units`, `GET /api/units/convert`), and if the server can't be reached the page offers a retry.
 
+### Lorem Ipsum Generator (`/tools/lorem-ipsum`)
+
+Placeholder text on demand:
+
+- **Pick:** paragraphs (1–50), sentences (1–200) or words (1–2000) with the chips, then type a number or drag the slider. The text updates as you change things.
+- **Options:** start with the classic "Lorem ipsum dolor sit amet, consectetur adipiscing elit." (on by default), and show it as plain text or as HTML `<p>` tags.
+- **Shuffle:** changing the options keeps the same random seed, so the text just grows or shrinks; **Shuffle the words** picks a new one.
+- **Copy:** copies the text in the chosen format; the paragraph, word and character counts are shown above it.
+- **Good to know:** the text is generated on the backend (`GET /api/lorem`) from a Latin word list; the same seed and options always give the same text. If the server can't be reached the page offers a retry.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -100,6 +110,7 @@ All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
 | GET    | `/api/colors`   | Query `hex`: 3 or 6 hex digits, optional `#` (`%23`), case-insensitive | `200` `{"hex": "#RRGGBB", "rgb", "hsl", "hsv", "cmyk", "name": string, "exactName": bool, "contrast": {"white", "black", "bestText"}, "harmonies": {"complementary", "analogous", "triadic", "splitComplementary", "tetradic"}, "shades": [9 hex]}` (nearest CSS color name, WCAG 2 contrast ratios, hue-rotation harmonies, shades at lightness 90 to 10); `400` on a missing or invalid `hex`; `Cache-Control: public, max-age=86400` |
 | GET    | `/api/units`    | –                                                                       | `200` `{"categories": [{"id": string, "name": string, "units": [{"id": string, "name": string, "symbol": string}]}]}` (10 categories, in display order); `Cache-Control: public, max-age=86400` |
 | GET    | `/api/units/convert` | Query `category`, `from` (a unit id of that category), `value` (finite, \|value\| ≤ 1e15) | `200` `{"category": string, "from": string, "value": number, "results": [{"unit": string, "value": number}]}` (the value in every unit of the category, unrounded); `400` on a missing or unknown category or unit, an invalid value, or a temperature below absolute zero; `Cache-Control: public, max-age=86400` |
+| GET    | `/api/lorem`    | Query `unit`?: `paragraphs` (default) \| `sentences` \| `words`; `count`?: 1–50 / 1–200 / 1–2000 per unit (default 3); `startWithLorem`?: `true` (default) \| `false`; `seed`?: 0–4294967295 (default: random) | `200` `{"unit": string, "count": int, "seed": int, "paragraphs": [string], "words": int}` (sentences and words come back as one paragraph; the same seed and options give the same text); `400` on an invalid unit, count, flag or seed; `Cache-Control: public, max-age=86400` with a seed, `no-store` without |
 | POST   | `/api/pomodoro/sessions` | JSON `{"kind": "focus"\|"short_break"\|"long_break", "durationSeconds": 1–14400, "label"?: string (up to 100 characters), "completedAt"?: RFC3339 (default: now)}` | `201` `{"id": string, "kind": string, "durationSeconds": int, "label": string, "completedAt": string}`; `400` on invalid input (including `completedAt` more than 1 minute in the future); `500` if the database fails; sessions are saved in the `pomodoro_sessions` table |
 | GET    | `/api/pomodoro/sessions` | Query `date`?: `YYYY-MM-DD` (default: today in the server's timezone) | `200` `{"date": "YYYY-MM-DD", "sessions": [session], "focusCount": int, "focusSeconds": int}` for sessions completed that day in the server's timezone, oldest first; `400` on an invalid date; `Cache-Control: no-store` |
 | POST   | `/api/stopwatch/sessions` | JSON `{"label"?: string (up to 100 characters), "elapsedMs": 1–86400000, "laps"?: [int] (lap durations in ms, each ≥ 1, at most 1000, sum ≤ elapsedMs), "completedAt"?: RFC3339 (default: now)}` | `201` `{"id": string, "label": string, "elapsedMs": int, "laps": [int], "completedAt": string}`; `400` on invalid input (including `completedAt` more than 1 minute in the future); sessions are kept in memory (newest 1,000) |
@@ -129,6 +140,7 @@ backend/
   internal/stopwatch/ # Stopwatch session log (in-memory store behind a repository interface)
   internal/color/     # Color conversions, nearest CSS name, WCAG contrast, harmonies and shades
   internal/units/     # Unit table (10 categories) and conversions
+  internal/lorem/     # Seeded lorem ipsum generator (paragraphs, sentences, words)
 frontend/
   src/api/            # Typed API clients (fetch wrappers)
   src/components/     # Shared UI components (icons)
@@ -230,6 +242,7 @@ What the app can do for its users.
 - [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
 - [x] Unit converter: 10 categories (length, mass, temperature, volume, area, speed, time, data, pressure, energy) as icon tiles, From/To panels with unit chips, a spinning swap button and ×10 / ÷10 / ± nudges, copyable result, everyday comparisons (and a thermometer for temperatures), the value in every unit with log-scale bars, remembered choices
+- [x] Lorem ipsum generator: paragraphs, sentences or words with a count slider, optional classic "Lorem ipsum dolor sit amet…" opening, plain text or HTML `<p>` output, shuffle, copy, and paragraph / word / character counts
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
@@ -271,7 +284,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] Rupiah terbilang: a number in Indonesian words ("seratus dua puluh lima ribu rupiah") for invoices and receipts
 - [ ] World clock / timezone converter, reusing `/api/time` and the server clock hook
 - [ ] Developer utilities: Unix timestamp ↔ date, UUID generator, hash generator (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron expression explainer, text diff, regex tester
-- [ ] Text tools: word / character counter with reading time, case converter, lorem ipsum generator
+- [ ] Text tools: word / character counter with reading time, case converter
 - [ ] Fun / random: spin wheel / random picker, team splitter, dice and coin flip
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] Recently used tools on the home page

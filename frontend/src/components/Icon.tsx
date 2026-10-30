@@ -48,6 +48,7 @@ const PATHS = {
     'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
   pressure: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 12l4-4M7 12h1M12 7v1M16 12h1',
   bolt: 'M13 3L5 14h6l-1 7 8-11h-6z',
+  text: 'M4 6h16M4 10h16M4 14h16M4 18h10',
 } as const
 
 export type IconName = keyof typeof PATHS
