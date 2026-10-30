@@ -98,6 +98,16 @@ Placeholder text on demand:
 - **Copy:** copies the text in the chosen format; the paragraph, word and character counts are shown above it.
 - **Good to know:** the text is generated on the backend (`GET /api/lorem`) from a Latin word list; the same seed and options always give the same text. If the server can't be reached the page offers a retry.
 
+### Word Counter (`/tools/word-counter`)
+
+Count words and more as you type or paste.
+
+- **Counts:** words, characters (with and without spaces), sentences, paragraphs and lines, plus reading time (238 words a minute) and speaking time (130 words a minute). They update live.
+- **Smart counting:** "don't", "e-mail" and "3.5" are one word each and lone punctuation like "—" isn't counted; Chinese, Japanese and Thai text is split into words with the browser's `Intl.Segmenter`, and an emoji or accented letter counts as one character.
+- **Limit:** keep it under an X post (280 characters), a meta description (160 characters) or your own number of words or characters; the bar turns red and shows how far over you are.
+- **Top words:** the eight most used words, optionally skipping common English and Indonesian ones ("the", "and", "yang"…).
+- **Good to know:** everything runs in the browser, so the text is never sent to the server. It's kept on this device as a draft, so a reload doesn't lose it; Clear removes it.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -243,6 +253,7 @@ What the app can do for its users.
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
 - [x] Unit converter: 10 categories (length, mass, temperature, volume, area, speed, time, data, pressure, energy) as icon tiles, From/To panels with unit chips, a spinning swap button and ×10 / ÷10 / ± nudges, copyable result, everyday comparisons (and a thermometer for temperatures), the value in every unit with log-scale bars, remembered choices
 - [x] Lorem ipsum generator: paragraphs, sentences or words with a count slider, optional classic "Lorem ipsum dolor sit amet…" opening, plain text or HTML `<p>` output, shuffle, copy, and paragraph / word / character counts
+- [x] Word counter: live words, characters (with and without spaces), sentences, paragraphs, lines, reading and speaking time, a limit bar (X post, meta description or custom), top words, copy, clear and a saved draft; counted in the browser
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
@@ -284,7 +295,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] Rupiah terbilang: a number in Indonesian words ("seratus dua puluh lima ribu rupiah") for invoices and receipts
 - [ ] World clock / timezone converter, reusing `/api/time` and the server clock hook
 - [ ] Developer utilities: Unix timestamp ↔ date, UUID generator, hash generator (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron expression explainer, text diff, regex tester
-- [ ] Text tools: word / character counter with reading time, case converter
+- [ ] Text tools: case converter
 - [ ] Fun / random: spin wheel / random picker, team splitter, dice and coin flip
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] Recently used tools on the home page

@@ -38,6 +38,7 @@ const PATHS = {
   eyedropper: 'M14 9l-9 9v3h3l9-9M13 6l5 5M15 4a2.1 2.1 0 0 1 3 0l2 2a2.1 2.1 0 0 1 0 3l-2 2-5-5z',
   swap: 'M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7',
   ruler: 'M3 9h18v6H3zM7 9v3M11 9v2M15 9v3M19 9v2',
+  count: 'M4 6h10M4 10h10M4 14h6M15 14l2 6M21 14l-2 6M14.5 17h7',
   weight: 'M7 8h10l3 12H4zM12 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4z',
   thermometer: 'M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0zM12 9v8',
   beaker: 'M8 3h8M9 3v6l-5 10a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-5-10V3M6.5 14h11',

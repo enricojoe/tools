@@ -37,6 +37,15 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./lorem-ipsum/LoremIpsumTool')),
   },
   {
+    slug: 'word-counter',
+    name: 'Word Counter',
+    description: 'Count words, characters, sentences and paragraphs as you type, with reading time and a limit bar.',
+    category: 'Text',
+    icon: 'count',
+    keywords: ['words', 'characters', 'letters', 'count', 'length', 'reading time', 'essay', 'tweet', 'limit'],
+    Component: lazy(() => import('./word-counter/WordCounterTool')),
+  },
+  {
     slug: 'qr-reader',
     name: 'QR Code Reader',
     description: 'Scan a QR code from an image or your camera and read what it says.',
