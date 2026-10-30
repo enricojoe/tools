@@ -38,6 +38,16 @@ const PATHS = {
   eyedropper: 'M14 9l-9 9v3h3l9-9M13 6l5 5M15 4a2.1 2.1 0 0 1 3 0l2 2a2.1 2.1 0 0 1 0 3l-2 2-5-5z',
   swap: 'M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7',
   ruler: 'M3 9h18v6H3zM7 9v3M11 9v2M15 9v3M19 9v2',
+  weight: 'M7 8h10l3 12H4zM12 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4z',
+  thermometer: 'M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0zM12 9v8',
+  beaker: 'M8 3h8M9 3v6l-5 10a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-5-10V3M6.5 14h11',
+  area: 'M4 4h16v16H4zM4 12h16M12 4v16',
+  gauge: 'M4 17a8 8 0 1 1 16 0M12 17l4-5M4 17h2M18 17h2',
+  hourglass: 'M6 3h12M6 21h12M7 3v2a5 5 0 0 0 10 0V3M7 21v-2a5 5 0 0 1 10 0v2M12 10v4',
+  database:
+    'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
+  pressure: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 12l4-4M7 12h1M12 7v1M16 12h1',
+  bolt: 'M13 3L5 14h6l-1 7 8-11h-6z',
 } as const
 
 export type IconName = keyof typeof PATHS

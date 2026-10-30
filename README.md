@@ -82,7 +82,9 @@ Pick a color and see everything about it:
 
 Convert between units in 10 categories: length, mass, temperature, volume (US customary), area, speed, time, data (SI `kB` and binary `KiB`), pressure and energy.
 
-- **Convert:** pick a category, type a value, choose the from and to units (or swap them). The result is shown large with a copy button, and the value in every unit of the category is listed below. Click a row to make it the target unit.
+- **Convert:** pick a category from the icon tiles, type a value in the blue **From** panel and pick units from the chips; the red **To** panel shows the result large with a copy button and a plain sentence ("3.7 meter is 12.14 foot"). The round button between them swaps the units, and ×10, ÷10 and ± nudge the value.
+- **Put it in perspective:** the value is compared with everyday things (bananas, buses, Olympic pools, HD movies…), with the closest match drawn as a row of emoji. Temperatures get a thermometer with freezing, body and boiling marks and a one-line feel ("A warm day.").
+- **Every unit:** the value in every unit of the category, each with a log-scale bar showing its size. Click a row to make it the target unit.
 - **Remembers:** the last category and each category's unit pair are saved in this browser (`localStorage`).
 - **Good to know:** conversions use exact definitional factors (e.g. 1 in = 0.0254 m, 1 lb = 0.45359237 kg). Temperatures below absolute zero are rejected. Conversion happens on the backend (`GET /api/units`, `GET /api/units/convert`), and if the server can't be reached the page offers a retry.
 
@@ -227,7 +229,7 @@ What the app can do for its users.
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors; pick colors from an image (click a pixel with a zoom loupe, or use its main colors)
 - [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
-- [x] Unit converter: 10 categories (length, mass, temperature, volume, area, speed, time, data, pressure, energy), from/to units with swap, copyable result, the value in every unit of the category, remembered choices
+- [x] Unit converter: 10 categories (length, mass, temperature, volume, area, speed, time, data, pressure, energy) as icon tiles, From/To panels with unit chips, a spinning swap button and ×10 / ÷10 / ± nudges, copyable result, everyday comparisons (and a thermometer for temperatures), the value in every unit with log-scale bars, remembered choices
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
