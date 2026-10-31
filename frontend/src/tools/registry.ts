@@ -46,6 +46,18 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./word-counter/WordCounterTool')),
   },
   {
+    slug: 'case-converter',
+    name: 'Case Converter',
+    description: 'Switch text between UPPER, lower, Title and Sentence case, or camelCase, snake_case and more for code.',
+    category: 'Text',
+    icon: 'case',
+    keywords: [
+      'uppercase', 'lowercase', 'capitalize', 'title', 'sentence', 'camel', 'pascal', 'snake', 'kebab',
+      'constant', 'convert', 'text',
+    ],
+    Component: lazy(() => import('./case-converter/CaseConverterTool')),
+  },
+  {
     slug: 'qr-reader',
     name: 'QR Code Reader',
     description: 'Scan a QR code from an image or your camera and read what it says.',
