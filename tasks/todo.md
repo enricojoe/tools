@@ -25,3 +25,4 @@
 - [x] Unit converter: more playful UI -> See tasks/plans/unit-converter-playful-ui.md (branch `frontend/feature/unit-converter-playful-ui`)
 - [x] Lorem ipsum generator: backend API + frontend page -> See tasks/plans/lorem-ipsum.md (branch `project/feature/lorem-ipsum`)
 - [x] Word counter: frontend page -> See tasks/plans/word-counter.md (branch `frontend/feature/word-counter`)
+- [x] Case converter: frontend page -> See tasks/plans/case-converter.md (branch `frontend/feature/case-converter`)

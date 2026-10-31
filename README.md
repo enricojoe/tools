@@ -108,6 +108,15 @@ Count words and more as you type or paste.
 - **Top words:** the eight most used words, optionally skipping common English and Indonesian ones ("the", "and", "yang"…).
 - **Good to know:** everything runs in the browser, so the text is never sent to the server. It's kept on this device as a draft, so a reload doesn't lose it; Clear removes it.
 
+### Case Converter (`/tools/case-converter`)
+
+Turn text into any case at once and copy the one you need.
+
+- **For writing:** UPPER CASE, lower case, Title Case, Sentence case, iNVERSE cASE and aLtErNaTiNg cAsE. Title Case keeps small English and Indonesian words ("of", "the", "dan", "di", "yang"…) lowercase unless they start or end a phrase; Sentence case capitalizes each sentence and the word "I".
+- **For code:** camelCase, PascalCase, snake_case, CONSTANT_CASE, kebab-case and dot.case. Words are split on spaces, punctuation and case changes, so "XMLHttpRequest", "user_id" and "Hello world" all convert cleanly; each line converts on its own, so a list of names stays a list.
+- **Copy or chain:** every result has Copy and "Use this", which puts it back in the box to convert again; **Original case** brings back the text you typed or pasted.
+- **Good to know:** everything runs in the browser, so the text is never sent to the server. It's kept on this device as a draft, so a reload doesn't lose it; Clear removes it.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -254,6 +263,7 @@ What the app can do for its users.
 - [x] Unit converter: 10 categories (length, mass, temperature, volume, area, speed, time, data, pressure, energy) as icon tiles, From/To panels with unit chips, a spinning swap button and ×10 / ÷10 / ± nudges, copyable result, everyday comparisons (and a thermometer for temperatures), the value in every unit with log-scale bars, remembered choices
 - [x] Lorem ipsum generator: paragraphs, sentences or words with a count slider, optional classic "Lorem ipsum dolor sit amet…" opening, plain text or HTML `<p>` output, shuffle, copy, and paragraph / word / character counts
 - [x] Word counter: live words, characters (with and without spaces), sentences, paragraphs, lines, reading and speaking time, a limit bar (X post, meta description or custom), top words, copy, clear and a saved draft; counted in the browser
+- [x] Case converter: UPPER, lower, Title, Sentence, inverse and alternating case plus camelCase, PascalCase, snake_case, CONSTANT_CASE, kebab-case and dot.case, all shown at once with copy, "use this" and a button back to the original; converted in the browser
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
@@ -295,7 +305,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] Rupiah terbilang: a number in Indonesian words ("seratus dua puluh lima ribu rupiah") for invoices and receipts
 - [ ] World clock / timezone converter, reusing `/api/time` and the server clock hook
 - [ ] Developer utilities: Unix timestamp ↔ date, UUID generator, hash generator (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron expression explainer, text diff, regex tester
-- [ ] Text tools: case converter
+- [ ] More text tools: find & replace, remove extra spaces and line breaks, sort or dedupe lines
 - [ ] Fun / random: spin wheel / random picker, team splitter, dice and coin flip
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] Recently used tools on the home page

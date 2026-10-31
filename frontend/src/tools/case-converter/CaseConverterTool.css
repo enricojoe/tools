@@ -1,0 +1,160 @@
+.cc-tool {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.cc-editor,
+.cc-side,
+.cc-group {
+  display: grid;
+  gap: 1rem;
+}
+
+.cc-side {
+  gap: 1.5rem;
+}
+
+.cc-label {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.cc-editor-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.cc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cc-textarea {
+  min-height: 22rem;
+  padding: 1rem 1.1rem;
+  font: inherit;
+  line-height: 1.65;
+  color: inherit;
+  background: var(--bg);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  resize: vertical;
+}
+
+.cc-textarea:hover {
+  border-color: var(--accent);
+}
+
+.cc-textarea:focus {
+  border-style: solid;
+  border-color: var(--accent);
+  outline: none;
+}
+
+.cc-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+
+.cc-row-text {
+  display: grid;
+  flex: 1 1 14rem;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.cc-name {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* Long results are cut to two lines here; Copy still takes all of it. */
+.cc-output {
+  display: -webkit-box;
+  overflow: hidden;
+  font-weight: 700;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.cc-output-sample {
+  color: var(--muted);
+}
+
+.cc-row-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.cc-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.7rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.cc-action:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.cc-action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cc-tool .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 860px) {
+  .cc-tool {
+    grid-template-columns: 1fr;
+  }
+
+  .cc-textarea {
+    min-height: 12rem;
+  }
+}
