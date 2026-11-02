@@ -117,6 +117,29 @@ Turn text into any case at once and copy the one you need.
 - **Copy or chain:** every result has Copy and "Use this", which puts it back in the box to convert again; **Original case** brings back the text you typed or pasted.
 - **Good to know:** everything runs in the browser, so the text is never sent to the server. It's kept on this device as a draft, so a reload doesn't lose it; Clear removes it.
 
+### Spin Wheel (`/tools/spin-wheel`)
+
+Let a wheel decide: who goes first, what's for lunch, the raffle winner.
+
+- **Entries:** one per line (up to 100); write one twice to double its chance. Shuffle, sort A–Z or clear them; they're saved on this device.
+- **Spin:** click the wheel or press Spin. It turns a few times and slows to a stop under the pointer, then shows the pick, with **Remove** to take it off the wheel (handy for drawing names one by one).
+- **Recent picks:** the last 10 results.
+
+### Dice Roller (`/tools/dice`)
+
+- **Dice:** 1–10 dice of one type: d4, d6, d8, d10, d12, d20 or d100. A d6 shows pips; the others show the number.
+- **Roll:** the dice tumble and land, and the total is shown as a sum (e.g. "3 + 5 + 2 = 10"), plus an optional modifier (−99 to +99, like the +2 in 1d20+2). A die that rolls its highest number is outlined red.
+- **Hold:** after a roll, click a die to keep its number on the next roll; Release all lets them go.
+- **Recent rolls:** the last 10, with notation, each die and the total.
+
+### Coin Flip (`/tools/coin-flip`)
+
+- **Flip:** click the coin or press Flip for a 3D flip; Flip 10× and Flip 100× do a batch at once and show the split.
+- **Tally:** heads vs tails with percentages and a split bar, the current and longest streak, and the last 40 flips as little coins. Reset starts over.
+- **Name the sides:** rename heads and tails (e.g. "Yes" / "No", or two names).
+
+All three run in the browser and use the crypto random generator (`crypto.getRandomValues`, without modulo bias), so every result is equally likely. Animations are skipped if your system asks for reduced motion.
+
 ## API
 
 All routes are under `/api`. Errors are returned as `{"error": "<message>"}`.
@@ -167,7 +190,7 @@ frontend/
   src/theme/          # Light/dark theme hook and toggle button
   src/pages/          # Home (tool grid), tool page wrapper, 404
   src/tools/          # registry.ts (list of tools) + one folder per tool
-  src/tools/shared/   # Used by alarm and timer: server clock hook, beep + notifications, ring dialog
+  src/tools/shared/   # Used across tools: server clock hook, beep + notifications, ring dialog (alarm, timer); fair random picks (spin wheel, dice, coin flip)
   src/                # Router setup and global styles
 tasks/
   plans/              # Per-task plans
@@ -264,6 +287,9 @@ What the app can do for its users.
 - [x] Lorem ipsum generator: paragraphs, sentences or words with a count slider, optional classic "Lorem ipsum dolor sit amet…" opening, plain text or HTML `<p>` output, shuffle, copy, and paragraph / word / character counts
 - [x] Word counter: live words, characters (with and without spaces), sentences, paragraphs, lines, reading and speaking time, a limit bar (X post, meta description or custom), top words, copy, clear and a saved draft; counted in the browser
 - [x] Case converter: UPPER, lower, Title, Sentence, inverse and alternating case plus camelCase, PascalCase, snake_case, CONSTANT_CASE, kebab-case and dot.case, all shown at once with copy, "use this" and a button back to the original; converted in the browser
+- [x] Spin wheel: entries one per line on a colored wheel that spins and stops on a fair pick, remove the winner, shuffle / sort, recent picks, entries saved on the device
+- [x] Dice roller: 1–10 dice from d4 to d100 with a tumble animation, d6 pips, total with a modifier, hold dice between rolls, recent rolls
+- [x] Coin flip: 3D flip, batches of 10 or 100, heads / tails tally with a split bar, current and longest streak, recent flips, renameable sides
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
@@ -306,7 +332,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] World clock / timezone converter, reusing `/api/time` and the server clock hook
 - [ ] Developer utilities: Unix timestamp ↔ date, UUID generator, hash generator (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron expression explainer, text diff, regex tester
 - [ ] More text tools: find & replace, remove extra spaces and line breaks, sort or dedupe lines
-- [ ] Fun / random: spin wheel / random picker, team splitter, dice and coin flip
+- [ ] Fun / random: team splitter (random groups from a list of names), random number generator
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] Recently used tools on the home page
 - [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)
