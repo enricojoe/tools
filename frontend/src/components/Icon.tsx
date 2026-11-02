@@ -52,6 +52,9 @@ const PATHS = {
   pressure: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 12l4-4M7 12h1M12 7v1M16 12h1',
   bolt: 'M13 3L5 14h6l-1 7 8-11h-6z',
   text: 'M4 6h16M4 10h16M4 14h16M4 18h10',
+  wheel: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4',
+  dice: 'M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zM8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01',
+  coin: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 6.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM12 9.5v5',
 } as const
 
 export type IconName = keyof typeof PATHS

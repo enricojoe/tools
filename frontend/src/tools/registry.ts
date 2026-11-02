@@ -132,6 +132,33 @@ export const TOOLS: Tool[] = [
     ],
     Component: lazy(() => import('./unit-converter/UnitConverterTool')),
   },
+  {
+    slug: 'spin-wheel',
+    name: 'Spin Wheel',
+    description: 'Put names or choices on a wheel, give it a spin and let it pick one for you.',
+    category: 'Fun',
+    icon: 'wheel',
+    keywords: ['random', 'picker', 'name', 'choose', 'decide', 'raffle', 'lottery', 'roulette', 'undian'],
+    Component: lazy(() => import('./spin-wheel/SpinWheelTool')),
+  },
+  {
+    slug: 'dice',
+    name: 'Dice Roller',
+    description: 'Roll up to ten dice, from d4 to d100, with a modifier, held dice and a running history.',
+    category: 'Fun',
+    icon: 'dice',
+    keywords: ['random', 'roll', 'die', 'd6', 'd20', 'board game', 'rpg', 'dnd', 'dadu'],
+    Component: lazy(() => import('./dice/DiceTool')),
+  },
+  {
+    slug: 'coin-flip',
+    name: 'Coin Flip',
+    description: 'Flip a coin, or a hundred, and keep a tally of heads, tails and streaks.',
+    category: 'Fun',
+    icon: 'coin',
+    keywords: ['random', 'heads', 'tails', 'toss', 'yes no', 'decide', '50/50', 'koin'],
+    Component: lazy(() => import('./coin-flip/CoinFlipTool')),
+  },
 ]
 
 export function findTool(slug: string | undefined): Tool | undefined {
