@@ -117,6 +117,19 @@ Turn text into any case at once and copy the one you need.
 - **Copy or chain:** every result has Copy and "Use this", which puts it back in the box to convert again; **Original case** brings back the text you typed or pasted.
 - **Good to know:** everything runs in the browser, so the text is never sent to the server. It's kept on this device as a draft, so a reload doesn't lose it; Clear removes it.
 
+### Base64 Encoder / Decoder (`/tools/base64`)
+
+Turn text or a file into Base64, or Base64 back into text, an image or a file.
+
+- **Encode:** text is encoded as UTF-8, so accents and emoji come back intact. Pick, drop or paste a file or screenshot (up to 5 MB) to encode its bytes, optionally as a `data:` URL for HTML and CSS; images show a thumbnail. Options: URL-safe alphabet (`-` and `_`), padding on or off, and wrapping at 76 characters (email / MIME). The size is shown with how much longer Base64 makes it (about a third).
+- **Decode:** spaces and line breaks are ignored, standard and URL-safe Base64 and missing padding are all accepted, and a `data:…;base64,` prefix is stripped. Dropping a `.txt` file decodes the Base64 in it. Bad input gets an error naming the character and where it is.
+- **Text or file:** decoded bytes that are text are shown as text; anything else is shown as a file with its size, a guessed type (PNG, JPEG, GIF, WebP, PDF, ZIP), an image preview, the first bytes in hex and a Download button.
+- **Separate inputs:** Encode and Decode each keep their own text, so switching modes swaps the input and switching back brings yours back. "Decode it" / "Encode it" put the result into the other mode's input.
+- **Wrong mode?** Base64 typed into Encode, or plain text typed into Decode, gets a nudge with a button that moves the text to the other mode.
+- **Copy, download or check:** Copy the result, download it as a file, or "Decode it" / "Encode it" to send it back the other way and check the round trip. "Try an example" fills in a sample.
+- **How it works:** a fold-out shows your first 3 bytes as bits, cut into four 6-bit groups, each with its number and letter, with the fill bits and `=` padding marked.
+- **Good to know:** everything runs in the browser, so nothing is sent to the server. Both inputs and your options are kept on this device; Clear empties the current one.
+
 ### Spin Wheel (`/tools/spin-wheel`)
 
 Let a wheel decide: who goes first, what's for lunch, the raffle winner.
@@ -287,6 +300,7 @@ What the app can do for its users.
 - [x] Lorem ipsum generator: paragraphs, sentences or words with a count slider, optional classic "Lorem ipsum dolor sit amet…" opening, plain text or HTML `<p>` output, shuffle, copy, and paragraph / word / character counts
 - [x] Word counter: live words, characters (with and without spaces), sentences, paragraphs, lines, reading and speaking time, a limit bar (X post, meta description or custom), top words, copy, clear and a saved draft; counted in the browser
 - [x] Case converter: UPPER, lower, Title, Sentence, inverse and alternating case plus camelCase, PascalCase, snake_case, CONSTANT_CASE, kebab-case and dot.case, all shown at once with copy, "use this" and a button back to the original; converted in the browser
+- [x] Base64 encoder / decoder: UTF-8 text or picked, dropped or pasted files (up to 5 MB, optionally as a `data:` URL) to Base64 with URL-safe, padding and line-wrap options; forgiving decoding with clear errors, decoded files shown with type, image preview, hex and Download; a nudge when input is in the wrong mode, examples, downloads, and a "How it works" bit breakdown; encoded in the browser
 - [x] Spin wheel: entries one per line on a colored wheel that spins and stops on a fair pick, remove the winner, shuffle / sort, recent picks, entries saved on the device
 - [x] Dice roller: 1–10 dice from d4 to d100 with a tumble animation, d6 pips, total with a modifier, hold dice between rolls, recent rolls
 - [x] Coin flip: 3D flip, batches of 10 or 100, heads / tails tally with a split bar, current and longest streak, recent flips, renameable sides
@@ -323,7 +337,7 @@ _None right now._
 
 Claude's suggestions for next steps, for the owner to accept or drop.
 
-- [ ] More tools: JSON formatter, Base64 encode/decode, password generator, image resizer
+- [ ] More tools: JSON formatter, password generator, image resizer
 - [ ] Date / working-day calculator: days between two dates or "add N working days", skipping weekends and the Indonesian holidays and cuti bersama from `internal/holiday`
 - [ ] Long-weekend finder (harpitnas): upcoming long weekends and which leave days bridge them, from the same holiday data
 - [ ] Short links + QR: shorten a URL (saved in PostgreSQL) with a QR code for it
