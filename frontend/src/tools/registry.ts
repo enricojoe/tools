@@ -133,6 +133,15 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./unit-converter/UnitConverterTool')),
   },
   {
+    slug: 'base64',
+    name: 'Base64 Encoder / Decoder',
+    description: 'Encode text or a file to Base64, or decode Base64 back to text, an image or a file.',
+    category: 'Converters',
+    icon: 'binary',
+    keywords: ['base64', 'encode', 'decode', 'data url', 'data uri', 'url-safe', 'mime', 'atob', 'btoa', 'binary'],
+    Component: lazy(() => import('./base64/Base64Tool')),
+  },
+  {
     slug: 'spin-wheel',
     name: 'Spin Wheel',
     description: 'Put names or choices on a wheel, give it a spin and let it pick one for you.',

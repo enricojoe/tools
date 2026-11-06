@@ -27,3 +27,4 @@
 - [x] Word counter: frontend page -> See tasks/plans/word-counter.md (branch `frontend/feature/word-counter`)
 - [x] Case converter: frontend page -> See tasks/plans/case-converter.md (branch `frontend/feature/case-converter`)
 - [x] Spin wheel, dice and coin flip: frontend pages -> See tasks/plans/random-tools.md (branch `frontend/feature/random-tools`)
+- [x] Base64 encoder / decoder: frontend page -> See tasks/plans/base64.md (branch `frontend/feature/base64`)
