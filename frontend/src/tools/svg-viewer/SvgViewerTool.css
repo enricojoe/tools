@@ -1,0 +1,428 @@
+.svgv-tool {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.svgv-panel,
+.svgv-side {
+  display: grid;
+  gap: 1rem;
+}
+
+.svgv-side {
+  gap: 1.5rem;
+}
+
+.svgv-label {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.svgv-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+}
+
+.svgv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.svgv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.svgv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, transform 0.15s;
+}
+
+.svgv-chip:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.svgv-chip[aria-pressed='true'] {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--ink);
+}
+
+.svgv-dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+}
+
+.svgv-dot-checker {
+  background: repeating-conic-gradient(#c9d3e3 0 25%, #fff 0 50%) 0 0 / 6px 6px;
+}
+
+.svgv-dot-white {
+  background: #fff;
+}
+
+.svgv-dot-black {
+  background: #000;
+}
+
+.svgv-color {
+  width: 2.2rem;
+  height: 2rem;
+  padding: 0.1rem;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.svgv-drop {
+  position: relative;
+  display: grid;
+  border-radius: var(--radius-sm);
+}
+
+.svgv-drop-note {
+  position: absolute;
+  inset: auto 0 1rem;
+  justify-self: center;
+  padding: 0.35rem 0.9rem;
+  font-weight: 800;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  pointer-events: none;
+  animation: svgv-pop 0.2s ease-out;
+}
+
+.svgv-textarea {
+  min-height: 26rem;
+  padding: 1rem 1.1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: inherit;
+  tab-size: 2;
+  background: var(--bg);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  resize: vertical;
+}
+
+.svgv-textarea:hover,
+.svgv-drop-active .svgv-textarea {
+  border-color: var(--accent);
+}
+
+.svgv-textarea:focus {
+  border-style: solid;
+  border-color: var(--accent);
+  outline: none;
+}
+
+.svgv-drop-active .svgv-textarea {
+  background: var(--surface-2);
+}
+
+.svgv-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.svgv-action:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.svgv-action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.svgv-stage {
+  position: relative;
+  height: 24rem;
+  overflow: hidden;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.svgv-stage:focus-visible {
+  border-color: var(--accent);
+  outline: 3px solid var(--accent-soft);
+}
+
+/* Checkerboard so transparent parts are visible. */
+.svgv-checker {
+  background: repeating-conic-gradient(var(--surface-2) 0 25%, var(--bg) 0 50%) 0 0 / 16px 16px;
+}
+
+.svgv-grabbing {
+  cursor: grabbing;
+}
+
+.svgv-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: none;
+  pointer-events: none;
+}
+
+.svgv-empty {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  cursor: default;
+}
+
+.svgv-empty p {
+  margin: 0;
+}
+
+.svgv-zoom {
+  gap: 0.35rem;
+}
+
+.svgv-icon-btn {
+  padding-inline: 0.7rem;
+}
+
+.svgv-zoom-value {
+  min-width: 4.2rem;
+  padding: 0.35rem 0.5rem;
+  font: inherit;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.svgv-zoom-value:hover {
+  background: var(--surface-2);
+}
+
+.svgv-facts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.svgv-facts > div {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.svgv-facts dt {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.svgv-facts dd {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.svgv-tool code {
+  padding: 0 0.3rem;
+  font-size: 0.85em;
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+
+.svgv-tags,
+.svgv-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.svgv-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem 0.2rem 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.svgv-swatch:hover {
+  border-color: var(--accent);
+}
+
+.svgv-swatch-color {
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+}
+
+.svgv-notes {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.svgv-notes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--highlight-soft);
+  border-radius: var(--radius-sm);
+}
+
+.svgv-notes li svg {
+  flex: none;
+  margin-top: 0.15rem;
+  color: var(--highlight);
+}
+
+.svgv-notes .svgv-note-fix {
+  background: var(--accent-soft);
+}
+
+.svgv-notes .svgv-note-fix svg {
+  color: var(--accent);
+}
+
+.svgv-export {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.svgv-export .hint {
+  margin: 0;
+}
+
+.svgv-width {
+  width: 6rem;
+  padding: 0.3rem 0.6rem;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+}
+
+.svgv-width:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.svgv-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.svgv-check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--accent);
+}
+
+@keyframes svgv-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svgv-drop-note {
+    animation: none;
+  }
+}
+
+.svgv-tool .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 860px) {
+  .svgv-tool {
+    grid-template-columns: 1fr;
+  }
+
+  .svgv-textarea {
+    min-height: 14rem;
+  }
+
+  .svgv-stage {
+    height: 18rem;
+  }
+}

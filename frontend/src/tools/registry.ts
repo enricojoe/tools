@@ -121,6 +121,15 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./color-picker/ColorPickerTool')),
   },
   {
+    slug: 'svg-viewer',
+    name: 'SVG Viewer',
+    description: 'Paste or drop an SVG to see it up close, check its size and colors, tidy the code and save it as PNG.',
+    category: 'Design',
+    icon: 'vector',
+    keywords: ['svg', 'vector', 'preview', 'icon', 'viewbox', 'png', 'export', 'minify', 'format', 'data url', 'xml'],
+    Component: lazy(() => import('./svg-viewer/SvgViewerTool')),
+  },
+  {
     slug: 'unit-converter',
     name: 'Unit Converter',
     description: 'Convert length, weight, temperature, volume, speed, data and more between metric and imperial units.',

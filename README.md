@@ -130,6 +130,17 @@ Turn text or a file into Base64, or Base64 back into text, an image or a file.
 - **How it works:** a fold-out shows your first 3 bytes as bits, cut into four 6-bit groups, each with its number and letter, with the fill bits and `=` padding marked.
 - **Good to know:** everything runs in the browser, so nothing is sent to the server. Both inputs and your options are kept on this device; Clear empties the current one.
 
+### SVG Viewer (`/tools/svg-viewer`)
+
+Look at an SVG up close, check what's in it and save it as a PNG.
+
+- **Open:** paste or type SVG code, or pick, drop or paste an `.svg` file (up to 5 MB). "Try an example" fills in a sample. A missing `xmlns` or `xmlns:xlink` (common in SVG copied out of HTML) is added, and an `<svg>` wrapped in other markup is found. Broken code gets the parser's error with line and column, while the last version that worked stays on screen.
+- **Preview:** zoom with the buttons, the mouse wheel or a trackpad pinch (around the cursor) or the keys `+` `-`, `0` to fit and `1` for actual size; drag or use the arrow keys to move around. Backgrounds: checkerboard, white, black or a color you pick.
+- **Details:** size in px (from width / height with any unit, or the viewBox, or the 300 × 150 default), the viewBox, file size and lines, element count and the most-used tags, and the colors it uses (click one to copy it). Notes flag scripts, event handlers, external files, embedded bitmaps, `<foreignObject>` and `currentColor`.
+- **Tidy up:** Format indents the code; Minify drops comments, `<metadata>` and extra whitespace. Both show the size before and after. Text in `<text>`, `<style>` and the like is left as is.
+- **Save or copy:** a PNG at 1×, 2×, 4× or a width you type (up to 8192 px), transparent or filled with the preview color; the `.svg` file; the code, a `data:` URL (percent-encoded, not Base64) or a CSS `background-image`.
+- **Good to know:** the preview is drawn as an image, so scripts in the SVG never run and nothing is fetched. Everything runs in the browser; the code and your background choice are kept on this device.
+
 ### Spin Wheel (`/tools/spin-wheel`)
 
 Let a wheel decide: who goes first, what's for lunch, the raffle winner.
@@ -301,6 +312,7 @@ What the app can do for its users.
 - [x] Word counter: live words, characters (with and without spaces), sentences, paragraphs, lines, reading and speaking time, a limit bar (X post, meta description or custom), top words, copy, clear and a saved draft; counted in the browser
 - [x] Case converter: UPPER, lower, Title, Sentence, inverse and alternating case plus camelCase, PascalCase, snake_case, CONSTANT_CASE, kebab-case and dot.case, all shown at once with copy, "use this" and a button back to the original; converted in the browser
 - [x] Base64 encoder / decoder: UTF-8 text or picked, dropped or pasted files (up to 5 MB, optionally as a `data:` URL) to Base64 with URL-safe, padding and line-wrap options; forgiving decoding with clear errors, decoded files shown with type, image preview, hex and Download; a nudge when input is in the wrong mode, examples, downloads, and a "How it works" bit breakdown; encoded in the browser
+- [x] SVG viewer: paste, pick or drop an SVG to see it with zoom / pan and backgrounds, size, viewBox, tags, colors and warnings, Format / Minify, and export as PNG (1×–4× or a set width), `.svg`, data URL or CSS; shown safely as an image, in the browser
 - [x] Spin wheel: entries one per line on a colored wheel that spins and stops on a fair pick, remove the winner, shuffle / sort, recent picks, entries saved on the device
 - [x] Dice roller: 1–10 dice from d4 to d100 with a tumble animation, d6 pips, total with a modifier, hold dice between rolls, recent rolls
 - [x] Coin flip: 3D flip, batches of 10 or 100, heads / tails tally with a split bar, current and longest streak, recent flips, renameable sides
@@ -348,6 +360,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] More text tools: find & replace, remove extra spaces and line breaks, sort or dedupe lines
 - [ ] Fun / random: team splitter (random groups from a list of names), random number generator
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
+- [ ] SVG viewer extras: recolor a color everywhere at once, a side-by-side diff of two SVGs, and SVG → JSX for React
 - [ ] Recently used tools on the home page
 - [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)
 - [ ] Frontend tests (Vitest + React Testing Library)
