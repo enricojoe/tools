@@ -68,6 +68,15 @@ p {
   margin: 0;
 }
 
+/* Colored by tool category: pair the class with `categoryStyle()` from the registry. */
+.cat {
+  --cat: var(--cat-light);
+}
+
+:root[data-theme='dark'] .cat {
+  --cat: var(--cat-dark);
+}
+
 /* Shared UI: used by every tool page. */
 
 .card {

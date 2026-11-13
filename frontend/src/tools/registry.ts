@@ -1,4 +1,4 @@
-import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
+import { lazy, type ComponentType, type CSSProperties, type LazyExoticComponent } from 'react'
 import type { IconName } from '../components/Icon'
 
 export interface Tool {
@@ -178,6 +178,35 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./coin-flip/CoinFlipTool')),
   },
 ]
+
+/**
+ * Each category's color, for light and dark mode. Light values carry white text
+ * and dark values carry the dark background color, both at WCAG AA or better.
+ */
+const CATEGORY_COLORS: Record<string, { light: string; dark: string }> = {
+  Generators: { light: '#1d4ed8', dark: '#7aa2ff' },
+  Text: { light: '#7c3aed', dark: '#b79cff' },
+  Readers: { light: '#0f766e', dark: '#4fd1c5' },
+  Time: { light: '#c2410c', dark: '#ff9f5a' },
+  Design: { light: '#be185d', dark: '#ff85bd' },
+  Converters: { light: '#15803d', dark: '#5ee08a' },
+  Fun: { light: '#dc2626', dark: '#ff6b6b' },
+}
+
+const FALLBACK_COLOR = CATEGORY_COLORS.Generators
+
+export function categoryColor(category: string): { light: string; dark: string } {
+  return CATEGORY_COLORS[category] ?? FALLBACK_COLOR
+}
+
+/**
+ * Inline style for an element with the `cat` class: it sets `--cat` to the
+ * category's color for the current theme (see `.cat` in index.css).
+ */
+export function categoryStyle(category: string): CSSProperties {
+  const { light, dark } = categoryColor(category)
+  return { '--cat-light': light, '--cat-dark': dark } as CSSProperties
+}
 
 export function findTool(slug: string | undefined): Tool | undefined {
   return TOOLS.find((t) => t.slug === slug)
