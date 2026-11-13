@@ -209,8 +209,8 @@ backend/
   internal/lorem/     # Seeded lorem ipsum generator (paragraphs, sentences, words)
 frontend/
   src/api/            # Typed API clients (fetch wrappers)
-  src/components/     # Shared UI components (icons)
-  src/layout/         # App shell: sidebar navigation, tool search, mobile drawer
+  src/components/     # Shared UI components (icons, brand mark)
+  src/layout/         # App shell: sidebar (search, recent, category groups, rail mode), mobile drawer, per-tool favicon
   src/theme/          # Light/dark theme hook and toggle button
   src/pages/          # Home (tool grid), tool page wrapper, 404
   src/tools/          # registry.ts (list of tools) + one folder per tool
@@ -317,6 +317,7 @@ What the app can do for its users.
 - [x] Dice roller: 1–10 dice from d4 to d100 with a tumble animation, d6 pips, total with a modifier, hold dice between rolls, recent rolls
 - [x] Coin flip: 3D flip, batches of 10 or 100, heads / tails tally with a split bar, current and longest streak, recent flips, renameable sides
 - [x] Tools hub: home page with a searchable grid of tools, sidebar navigation (drawer on mobile), `/` shortcut to search, per-tool pages and a 404 page
+- [x] Sidebar and favicon redesign: a toolbox logo as the favicon (plus an iOS home-screen icon), and each tool's tab shows its own icon in its category color; the sidebar has a color per category (dots, icon tiles, the "you are here" link and the tool page header), collapsible groups (folded by default; the current tool's group opens itself), the last 3 tools you opened under Recent, search where Enter opens the first match and the arrow keys move through the list, an icon-only rail mode on desktop (`[` or the round chevron button on the sidebar's edge) with tooltips, and a taped-on tip note; choices are remembered on the device
 - [x] Casual, friendly look (blue and red sticker style with bold outlines and offset shadows, hand-drawn doodles, rounded Nunito font, playful copy and small animations) with a light/dark mode toggle that remembers your choice and defaults to the system setting
 
 ### Foundation
@@ -361,7 +362,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 - [ ] Fun / random: team splitter (random groups from a list of names), random number generator
 - [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
 - [ ] SVG viewer extras: recolor a color everywhere at once, a side-by-side diff of two SVGs, and SVG → JSX for React
-- [ ] Recently used tools on the home page
+- [ ] Recently used tools on the home page too (the sidebar already lists them), and category colors on the home page cards to match the sidebar
 - [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)
 - [ ] Frontend tests (Vitest + React Testing Library)
 - [ ] Move Stopwatch runs from server memory to the database, like Pomodoro

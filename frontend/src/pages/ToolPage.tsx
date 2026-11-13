@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { Link, useParams } from 'react-router'
 import { Icon } from '../components/Icon'
-import { findTool } from '../tools/registry'
+import { categoryStyle, findTool } from '../tools/registry'
 import { NotFoundPage } from './NotFoundPage'
 import './pages.css'
 
@@ -16,7 +16,7 @@ export function ToolPage() {
         <Icon name="back" size={16} />
         All tools
       </Link>
-      <header className="tool-header">
+      <header className="tool-header cat" style={categoryStyle(tool.category)}>
         <span className="tool-icon">
           <Icon name={tool.icon} size={24} />
         </span>

@@ -1,20 +1,38 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router'
+import { Outlet, useMatch } from 'react-router'
+import { BrandMark } from '../components/BrandMark'
 import { Icon } from '../components/Icon'
 import { ThemeToggle } from '../theme/ThemeToggle'
 import { useTheme } from '../theme/useTheme'
-import { groupByCategory, searchTools } from '../tools/registry'
+import { findTool } from '../tools/registry'
+import { Sidebar } from './Sidebar'
+import { useMediaQuery } from './useMediaQuery'
+import { useStoredState } from './useStoredState'
+import { useToolFavicon } from './useToolFavicon'
 import './AppLayout.css'
+
+const RECENT_LIMIT = 4
 
 export function AppLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [query, setQuery] = useState('')
+  const [railChoice, setRail] = useStoredState('sidebar-rail', false)
+  // The icon-only rail is a desktop thing; below 900px the sidebar is a drawer.
+  const isDesktop = useMediaQuery('(min-width: 901px)')
+  const rail = railChoice && isDesktop
+  const [recent, setRecent] = useStoredState<string[]>('recent-tools', [])
   const searchRef = useRef<HTMLInputElement>(null)
   const { theme, toggleTheme } = useTheme()
 
-  const groups = groupByCategory(searchTools(query))
+  const currentTool = findTool(useMatch('/tools/:slug')?.params.slug)
+  useToolFavicon(currentTool)
 
-  // "/" focuses tool search; Escape closes the mobile drawer.
+  // Remember the tools opened most recently, newest first.
+  const slug = currentTool?.slug
+  useEffect(() => {
+    if (slug) setRecent((prev) => [slug, ...prev.filter((s) => s !== slug)].slice(0, RECENT_LIMIT))
+  }, [slug, setRecent])
+
+  // "/" focuses tool search, "[" toggles the desktop rail, Escape closes the mobile drawer.
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       const target = e.target as HTMLElement
@@ -22,18 +40,21 @@ export function AppLayout() {
       if (e.key === '/' && !typing) {
         e.preventDefault()
         setMenuOpen(true)
-        // Wait a frame so the drawer is visible (and focusable) on mobile.
+        setRail(false)
+        // Wait a frame so the search box exists and the drawer is visible on mobile.
         requestAnimationFrame(() => searchRef.current?.focus())
+      } else if (e.key === '[' && isDesktop && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        setRail((r) => !r)
       } else if (e.key === 'Escape') {
         setMenuOpen(false)
       }
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [])
+  }, [isDesktop, setRail])
 
   return (
-    <div className="shell">
+    <div className="shell" data-rail={rail}>
       <header className="topbar">
         <button
           type="button"
@@ -45,83 +66,36 @@ export function AppLayout() {
         >
           <Icon name="menu" />
         </button>
-        <Link to="/" className="brand">
-          <span className="brand-mark">
-            <Icon name="logo" size={18} />
-          </span>
-          Tools
-        </Link>
+        <BrandMark />
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </header>
 
-      <div
-        className="backdrop"
-        data-open={menuOpen}
-        onClick={() => setMenuOpen(false)}
-        aria-hidden="true"
+      <div className="backdrop" data-open={menuOpen} onClick={() => setMenuOpen(false)} aria-hidden="true" />
+
+      <Sidebar
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        rail={rail}
+        onToggleRail={() => setRail((r) => !r)}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        currentTool={currentTool}
+        recentSlugs={recent}
+        searchRef={searchRef}
       />
 
-      <aside
-        id="sidebar"
-        className="sidebar"
-        data-open={menuOpen}
-        // Close the mobile drawer once a link inside it is followed.
-        onClick={(e) => {
-          if ((e.target as HTMLElement).closest('a')) setMenuOpen(false)
-        }}
+      {/* Sits on the sidebar's right edge; outside the sidebar so its scroll area can't clip it. */}
+      <button
+        type="button"
+        className="rail-toggle"
+        aria-controls="sidebar"
+        aria-expanded={!rail}
+        aria-label={rail ? 'Expand sidebar' : 'Collapse sidebar'}
+        title={`${rail ? 'Expand' : 'Collapse'} sidebar ( [ )`}
+        onClick={() => setRail((r) => !r)}
       >
-        <div className="sidebar-head">
-          <Link to="/" className="brand">
-            <span className="brand-mark">
-              <Icon name="logo" size={18} />
-            </span>
-            Tools
-          </Link>
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
-          <button
-            type="button"
-            className="icon-btn sidebar-close"
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
-          >
-            <Icon name="close" />
-          </button>
-        </div>
-
-        <label className="search">
-          <Icon name="search" size={18} />
-          <input
-            ref={searchRef}
-            type="search"
-            placeholder="Find a tool"
-            aria-label="Search tools"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <kbd>/</kbd>
-        </label>
-
-        <nav className="nav" aria-label="Tools">
-          <NavLink to="/" end className="nav-link">
-            <Icon name="home" size={18} />
-            All tools
-          </NavLink>
-
-          {groups.map(([category, tools]) => (
-            <div key={category} className="nav-group">
-              <p className="nav-heading">{category}</p>
-              {tools.map((t) => (
-                <NavLink key={t.slug} to={`/tools/${t.slug}`} className="nav-link">
-                  <Icon name={t.icon} size={18} />
-                  {t.name}
-                </NavLink>
-              ))}
-            </div>
-          ))}
-
-          {groups.length === 0 && <p className="nav-empty">Nothing here for "{query}" 🤔</p>}
-        </nav>
-      </aside>
+        <Icon name={rail ? 'chevronRight' : 'chevronLeft'} size={16} />
+      </button>
 
       <main className="content">
         <Outlet />
