@@ -30,3 +30,4 @@
 - [x] Base64 encoder / decoder: frontend page -> See tasks/plans/base64.md (branch `frontend/feature/base64`)
 - [x] SVG viewer: frontend page -> See tasks/plans/svg-viewer.md (branch `frontend/feature/svg-viewer`)
 - [x] Sidebar and favicon redesign -> See tasks/plans/sidebar-favicon-redesign.md (branch `frontend/feature/sidebar-favicon-redesign`)
+- [x] SVG viewer extras: recolor, compare, SVG → JSX -> See tasks/plans/svg-viewer-extras.md (branch `frontend/feature/svg-viewer-extras`)
