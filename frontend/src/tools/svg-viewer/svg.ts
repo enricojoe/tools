@@ -1,6 +1,8 @@
 // SVG parsing, details, formatting and sizing for the SVG viewer. Runs in the
 // browser (DOMParser / XMLSerializer); no React.
 
+import { formatBytes } from '../base64/base64'
+
 const SVG_NS = 'http://www.w3.org/2000/svg'
 const XLINK_NS = 'http://www.w3.org/1999/xlink'
 
@@ -122,7 +124,8 @@ const NOT_COLORS = new Set([
 ])
 const CSS_COLOR_DECL = new RegExp(`(?:^|[;{\\s])(${COLOR_PROPS.join('|')})\\s*:\\s*([^;}{]+)`, 'gi')
 
-function normalizeColor(raw: string): string {
+/** A color value as compared and listed: lowercase, `#abc` written as `#aabbcc`. */
+export function normalizeColor(raw: string): string {
   const value = raw.replace(/!important/i, '').trim().toLowerCase()
   const short = /^#([0-9a-f]{3,4})$/.exec(value)
   return short ? '#' + [...short[1]].map((c) => c + c).join('') : value
@@ -218,6 +221,58 @@ function describe(svg: Element): Omit<SvgInfo, 'fixes'> {
   }
 }
 
+// A color declaration in CSS: what comes before the value, the value, and a
+// trailing `!important` and spaces, which are kept as they are.
+const CSS_COLOR_VALUE = new RegExp(
+  `((?:^|[;{\\s])(?:${COLOR_PROPS.join('|')})\\s*:\\s*)([^;}{!]*?)(\\s*(?:!\\s*important)?\\s*)(?=[;}]|$)`,
+  'gi',
+)
+
+function recolorCss(css: string, from: string, to: string): { css: string; count: number } {
+  let count = 0
+  const next = css.replace(CSS_COLOR_VALUE, (all, before: string, value: string, after: string) => {
+    if (normalizeColor(value) !== from) return all
+    count++
+    return before + to + after
+  })
+  return { css: next, count }
+}
+
+/**
+ * The SVG's code with every use of the color `from` (as listed in
+ * `SvgInfo.colors`) changed to `to`: color attributes, inline styles and
+ * `<style>` sheets. Whitespace and the rest of the code are kept.
+ */
+export function recolorSvg(svg: Element, from: string, to: string): { code: string; count: number } {
+  const copy = svg.cloneNode(true) as Element
+  const target = normalizeColor(from)
+  let count = 0
+  for (const el of [copy, ...copy.getElementsByTagName('*')]) {
+    for (const attr of [...el.attributes]) {
+      const name = attr.name.toLowerCase()
+      if (COLOR_PROPS.includes(name)) {
+        if (normalizeColor(attr.value) !== target) continue
+        attr.value = to
+        count++
+      } else if (name === 'style') {
+        const result = recolorCss(attr.value, target, to)
+        attr.value = result.css
+        count += result.count
+      }
+    }
+    if (el.localName === 'style') {
+      // Text and CDATA parts separately, so a CDATA wrapper survives.
+      for (const node of el.childNodes) {
+        if (node.nodeType !== Node.TEXT_NODE && node.nodeType !== Node.CDATA_SECTION_NODE) continue
+        const result = recolorCss((node as CharacterData).data, target, to)
+        ;(node as CharacterData).data = result.css
+        count += result.count
+      }
+    }
+  }
+  return { code: new XMLSerializer().serializeToString(copy) + '\n', count }
+}
+
 /**
  * A copy of the SVG drawn at `width` × `height` px. A missing viewBox is set
  * from the original size first, so the drawing scales instead of being cropped.
@@ -296,4 +351,20 @@ export function toDataUrl(svg: string): string {
 /** Size of the text in bytes as UTF-8. */
 export function byteLength(s: string): number {
   return new TextEncoder().encode(s).length
+}
+
+export const MAX_FILE = 5 * 1024 * 1024
+
+/** Reads a picked, dropped or pasted file as SVG code, or says why it can't. */
+export async function readSvgFile(file: File): Promise<{ text: string; name: string } | { error: string }> {
+  if (file.size > MAX_FILE) {
+    return { error: `“${file.name}” is ${formatBytes(file.size)}; files up to ${formatBytes(MAX_FILE)} work here.` }
+  }
+  const svgLike = file.type === 'image/svg+xml' || /\.svg$/i.test(file.name) || !file.type.startsWith('image/')
+  if (!svgLike) return { error: `“${file.name}” is a ${file.type.replace('image/', '').toUpperCase()} image, not an SVG.` }
+  try {
+    return { text: await file.text(), name: file.name.replace(/\.[^.]+$/, '') || 'image' }
+  } catch {
+    return { error: `Couldn't read “${file.name}”.` }
+  }
 }

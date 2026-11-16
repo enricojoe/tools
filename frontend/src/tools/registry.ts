@@ -123,10 +123,11 @@ export const TOOLS: Tool[] = [
   {
     slug: 'svg-viewer',
     name: 'SVG Viewer',
-    description: 'Paste or drop an SVG to see it up close, check its size and colors, tidy the code and save it as PNG.',
+    description: 'Paste or drop an SVG to see it up close, recolor it, compare two versions and save it as PNG or a React component.',
     category: 'Design',
     icon: 'vector',
-    keywords: ['svg', 'vector', 'preview', 'icon', 'viewbox', 'png', 'export', 'minify', 'format', 'data url', 'xml'],
+    keywords: ['svg', 'vector', 'preview', 'icon', 'viewbox', 'png', 'export', 'minify', 'format', 'data url', 'xml',
+      'recolor', 'replace color', 'currentcolor', 'compare', 'diff', 'jsx', 'react', 'component', 'tsx'],
     Component: lazy(() => import('./svg-viewer/SvgViewerTool')),
   },
   {
