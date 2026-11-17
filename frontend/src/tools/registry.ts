@@ -112,6 +112,18 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./stopwatch/StopwatchTool')),
   },
   {
+    slug: 'date-calculator',
+    name: 'Date Calculator',
+    description: 'Add or subtract days, weeks, months or working days, count the days between two dates, and convert years to days or weeks.',
+    category: 'Time',
+    icon: 'datecalc',
+    keywords: [
+      'date', 'days', 'weeks', 'months', 'years', 'add', 'subtract', 'between', 'until', 'since', 'difference',
+      'duration', 'convert', 'working days', 'business days', 'hari kerja', 'deadline', 'age', 'countdown',
+    ],
+    Component: lazy(() => import('./date-calculator/DateCalculatorTool')),
+  },
+  {
     slug: 'color-picker',
     name: 'Color Picker',
     description: 'Pick a color and get its HEX, RGB, HSL and CMYK values, contrast, harmonies and shades.',

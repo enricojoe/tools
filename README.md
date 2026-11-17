@@ -49,6 +49,16 @@ A month calendar with every Indonesian **public holiday** (hari libur nasional) 
 - **Browse:** move by month or jump back to today. Click a day to see what it is; the month's holidays are listed below with how many days away they are.
 - **Coverage:** 2025, 2026 and 2027. Other years show a note instead of holidays. Data comes from the backend (`GET /api/holidays`); Islamic holiday dates can still shift with the official moon sighting.
 
+### Date Calculator (`/tools/date-calculator`)
+
+Three calculators on tabs, all worked out in the browser:
+
+- **Add / subtract:** a start date plus or minus years, months, weeks and days (or quick picks like +10 days, +5 weeks, +1 month). The answer is a tear-off calendar page with the full date, how far it is from today, its ISO week, day of the year and quarter, and the holiday's name if it lands on one. Month math keeps the day of the month, or stops at the month's last day (31 Jan + 1 month = 28/29 Feb) and says so. Switch to **working days** to count only Monday–Friday, optionally skipping Indonesian public holidays and cuti bersama (from `GET /api/holidays`); the holidays it passes over are listed.
+- **Between dates:** the days from one date to another, with an option to count the end day too, shown as years-months-days, weeks and days, whole months, hours, minutes and seconds, plus a bar splitting them into working days, holidays and weekend days.
+- **Convert:** a duration in seconds, minutes, hours, days, weeks, months, years or decades in every other unit, plus a breakdown (1 year = 52 weeks and 1 day). A year is 365, 365.2425 (average, with leap years) or 366 days; a month is a twelfth of a year. Click any unit to convert from it, or jump to "what date is 1 year from today?".
+
+Holidays are known for the years the backend has data for (2025–2027); elsewhere only weekends are skipped, and the page says so. The open tab and the holiday choice are remembered on the device.
+
 ### Pomodoro (`/tools/pomodoro`)
 
 A focus timer that works in rounds: focus, then a short break, with a long break after every few focus sessions (25 / 5 / 15 minutes and every 4 rounds by default):
@@ -305,6 +315,7 @@ What the app can do for its users.
 - [x] Alarm: live server clock with timezone, one-shot or weekly repeating alarms with labels, snooze, sound and browser notifications (rings only while the page is open)
 - [x] Timer: countdown with hours/minutes/seconds and quick presets, start/pause/resume/reset, progress ring, tab title countdown, sound and browser notification when done
 - [x] Calendar: month view with all Indonesian public holidays and cuti bersama (2025–2027, per the SKB 3 Menteri), Sundays in red, day details and a list of the month's holidays
+- [x] Date calculator: add or subtract years, months, weeks and days (with quick picks) or working days that skip weekends and Indonesian holidays, shown as a tear-off calendar page with week number, day of year and holiday name; days between two dates as y-m-d, weeks, hours and more with a working / holiday / weekend split; convert durations (1 year = 365 days = 52 weeks and 1 day) with a choice of year length
 - [x] Pomodoro: focus / short break / long break cycle with adjustable lengths, auto-advance, labels, progress ring, tab title countdown, sound and browser notification, and a "Today" list of finished sessions (logged through the API and saved in the database)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors; pick colors from an image (click a pixel with a zoom loupe, or use its main colors)
 - [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
@@ -354,7 +365,7 @@ _None right now._
 Claude's suggestions for next steps, for the owner to accept or drop.
 
 - [ ] More tools: JSON formatter, password generator, image resizer
-- [ ] Date / working-day calculator: days between two dates or "add N working days", skipping weekends and the Indonesian holidays and cuti bersama from `internal/holiday`
+- [ ] Date calculator: age calculator (exact age and next birthday) and a countdown to a saved date
 - [ ] Long-weekend finder (harpitnas): upcoming long weekends and which leave days bridge them, from the same holiday data
 - [ ] Short links + QR: shorten a URL (saved in PostgreSQL) with a QR code for it
 - [ ] Split bill: items per person plus tax (PB1 / PPN) and service charge, each person's share in Rupiah
