@@ -32,3 +32,4 @@
 - [x] Sidebar and favicon redesign -> See tasks/plans/sidebar-favicon-redesign.md (branch `frontend/feature/sidebar-favicon-redesign`)
 - [x] SVG viewer extras: recolor, compare, SVG → JSX -> See tasks/plans/svg-viewer-extras.md (branch `frontend/feature/svg-viewer-extras`)
 - [x] Date calculator: add / subtract, between dates, convert -> See tasks/plans/date-calculator.md (branch `frontend/feature/date-calculator`)
+- [x] JWT decoder / encoder: frontend page -> See tasks/plans/jwt.md (branch `frontend/feature/jwt`)

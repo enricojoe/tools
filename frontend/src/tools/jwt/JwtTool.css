@@ -1,0 +1,851 @@
+/* JWT decoder / encoder. One color per token part, carried from the token
+   itself to the card that explains that part. */
+
+.jwt-tool {
+  --jwt-header: #dc2626;
+  --jwt-payload: #7c3aed;
+  --jwt-signature: #0f766e;
+  --jwt-good: #15803d;
+  --jwt-warn: #b45309;
+  --jwt-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  display: grid;
+  gap: 1.5rem;
+}
+
+:root[data-theme='dark'] .jwt-tool {
+  --jwt-header: #ff6b6b;
+  --jwt-payload: #b79cff;
+  --jwt-signature: #4fd1c5;
+  --jwt-good: #5ee08a;
+  --jwt-warn: #fbbf24;
+}
+
+.jwt-tool [hidden] {
+  display: none;
+}
+
+/* ---- Mode switch */
+
+.jwt-modes {
+  display: inline-flex;
+  justify-self: start;
+  padding: 0.3rem;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.jwt-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.15rem;
+  font: inherit;
+  font-weight: 800;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.2s, transform 0.15s;
+}
+
+.jwt-mode:hover {
+  color: var(--text);
+}
+
+.jwt-mode[aria-pressed='true'] {
+  color: var(--on-accent);
+  background: var(--accent);
+  transform: rotate(-1.5deg);
+}
+
+/* ---- Layout */
+
+.jwt-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.jwt-col {
+  display: grid;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+.jwt-card {
+  display: grid;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+/* Each part's card wears its color as the offset shadow. */
+.jwt-part-header {
+  --pop: var(--jwt-header);
+}
+
+.jwt-part-payload {
+  --pop: var(--jwt-payload);
+}
+
+.jwt-card-sig {
+  --pop: var(--jwt-signature);
+}
+
+.jwt-card-out {
+  transform: rotate(-0.4deg);
+}
+
+.jwt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+}
+
+.jwt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.jwt-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+/* A colored dot before a part's name, the same color as that part of the token. */
+.jwt-label-header::before,
+.jwt-label-payload::before,
+.jwt-label-signature::before {
+  content: '';
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+
+.jwt-label-header::before {
+  background: var(--jwt-header);
+}
+
+.jwt-label-payload::before {
+  background: var(--jwt-payload);
+}
+
+.jwt-label-signature::before {
+  background: var(--jwt-signature);
+}
+
+.jwt-field-label {
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.jwt-tool code {
+  padding: 0 0.25rem;
+  font-family: var(--jwt-mono);
+  font-size: 0.85em;
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+
+/* ---- The colored token field */
+
+.jwt-field {
+  display: grid;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  transition: border-color 0.15s;
+}
+
+.jwt-field:hover,
+.jwt-field:focus-within {
+  border-color: var(--accent);
+}
+
+.jwt-field:focus-within {
+  border-style: solid;
+}
+
+.jwt-field:has([aria-invalid='true']) {
+  border-color: var(--error);
+}
+
+.jwt-field-readonly {
+  border-style: solid;
+  background: var(--surface-2);
+}
+
+/* Paint and textarea sit in the same cell with identical text metrics. */
+.jwt-field-paint,
+.jwt-field-input {
+  grid-area: 1 / 1;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  font-family: var(--jwt-mono);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  border: 0;
+}
+
+.jwt-field-paint {
+  min-height: 9rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.jwt-field-readonly .jwt-field-paint {
+  min-height: 0;
+}
+
+.jwt-field-input {
+  min-height: 9rem;
+  height: 100%;
+  color: transparent;
+  caret-color: var(--text);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  resize: none;
+}
+
+.jwt-field-input::placeholder {
+  color: var(--muted);
+}
+
+.jwt-field-input::selection {
+  color: transparent;
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.jwt-field-input:focus,
+.jwt-field-input:focus-visible {
+  outline: none;
+}
+
+.jwt-c-header {
+  color: var(--jwt-header);
+}
+
+.jwt-c-payload {
+  color: var(--jwt-payload);
+}
+
+.jwt-c-signature {
+  color: var(--jwt-signature);
+}
+
+.jwt-c-dot {
+  color: var(--text);
+  font-weight: 900;
+}
+
+.jwt-c-prefix {
+  color: var(--muted);
+}
+
+.jwt-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.jwt-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.jwt-legend span::before {
+  content: '';
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.jwt-legend-header {
+  color: var(--jwt-header);
+}
+
+.jwt-legend-payload {
+  color: var(--jwt-payload);
+}
+
+.jwt-legend-signature {
+  color: var(--jwt-signature);
+}
+
+/* ---- Stickers */
+
+.jwt-stickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.jwt-sticker {
+  --tone: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 12%, var(--surface));
+  border: 2px solid var(--tone);
+  border-radius: 999px;
+  animation: jwt-pop 0.2s ease-out;
+}
+
+.jwt-sticker:nth-child(odd) {
+  transform: rotate(-1.5deg);
+}
+
+.jwt-sticker:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.jwt-sticker-plain {
+  --tone: var(--text);
+  background: var(--surface);
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.jwt-sticker-good {
+  --tone: var(--jwt-good);
+}
+
+.jwt-sticker-bad {
+  --tone: var(--error);
+}
+
+.jwt-sticker-warn {
+  --tone: var(--jwt-warn);
+}
+
+/* ---- Small buttons and chips */
+
+.jwt-pill,
+.jwt-mini,
+.jwt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font: inherit;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s, background-color 0.15s;
+}
+
+.jwt-pill {
+  padding: 0.25rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.jwt-mini {
+  padding: 0.15rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.jwt-chip {
+  padding: 0.3rem 0.8rem;
+  font-family: var(--jwt-mono);
+  font-size: 0.85rem;
+}
+
+:is(.jwt-pill, .jwt-mini, .jwt-chip):hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+:is(.jwt-pill, .jwt-mini):disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.jwt-chip[aria-pressed='true'] {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--highlight);
+}
+
+.jwt-pill code,
+.jwt-chip code {
+  background: transparent;
+  padding: 0;
+}
+
+/* ---- Algorithm picker */
+
+.jwt-algs {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.jwt-alg-group {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.jwt-alg-group-name {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.jwt-alg-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+/* ---- Inputs */
+
+.jwt-input,
+.jwt-code {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--jwt-mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: inherit;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s;
+}
+
+.jwt-input:hover,
+.jwt-input:focus,
+textarea.jwt-code:hover,
+textarea.jwt-code:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.jwt-code[aria-invalid='true'] {
+  border-color: var(--error);
+}
+
+.jwt-editor {
+  resize: vertical;
+  tab-size: 2;
+}
+
+.jwt-secret {
+  min-height: 2.6rem;
+  resize: vertical;
+}
+
+.jwt-key {
+  resize: vertical;
+  font-size: 0.78rem;
+}
+
+.jwt-raw {
+  margin: 0;
+  max-height: 16rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: var(--surface-2);
+  border-color: transparent;
+}
+
+.jwt-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.jwt-check input {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--accent);
+}
+
+.jwt-pubkey {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.jwt-pubkey .jwt-head {
+  min-height: 0;
+}
+
+/* ---- Claim rows */
+
+.jwt-rows {
+  display: grid;
+  margin: 0;
+}
+
+.jwt-row {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) 1fr;
+  gap: 0.25rem 1rem;
+  padding: 0.6rem 0;
+  border-top: 2px dashed var(--border);
+}
+
+.jwt-row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.jwt-row dt {
+  display: grid;
+  align-content: start;
+  gap: 0.15rem;
+}
+
+.jwt-row dd {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+  margin: 0;
+}
+
+.jwt-row-key {
+  justify-self: start;
+  font-weight: 800;
+}
+
+.jwt-row-name {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.jwt-row-value {
+  font-family: var(--jwt-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.jwt-row-time {
+  font-size: 0.85rem;
+}
+
+.jwt-row-about {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.jwt-row-warn {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--jwt-warn);
+}
+
+.jwt-placeholder {
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-align: center;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* ---- Lifetime bar */
+
+.jwt-life {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.85rem 1rem 0.75rem;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+
+.jwt-life-track {
+  position: relative;
+  height: 0.9rem;
+  margin-top: 1.4rem;
+  background: var(--bg);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
+.jwt-life-fill {
+  height: 100%;
+  background: var(--jwt-good);
+  border-radius: 999px;
+  transition: width 0.9s linear;
+}
+
+.jwt-life-fill[data-over] {
+  background: var(--error);
+}
+
+.jwt-life-now {
+  position: absolute;
+  bottom: calc(100% + 0.3rem);
+  padding: 0 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  transform: translateX(-50%) rotate(-3deg);
+  transition: left 0.9s linear;
+}
+
+.jwt-life-now::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 2px;
+  height: 0.55rem;
+  background: var(--ink);
+}
+
+.jwt-life-ends {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.jwt-life p {
+  margin: 0;
+}
+
+/* ---- Encode extras */
+
+.jwt-claim-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.jwt-claim-bar-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.jwt-claim-bar-label:not(:first-child) {
+  margin-left: 0.35rem;
+}
+
+.jwt-times {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.85rem;
+  list-style: none;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+
+/* ---- Clock leeway and heads-up list */
+
+.jwt-leeway {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.jwt-leeway .jwt-claim-bar-label {
+  margin-right: 0.25rem;
+  cursor: help;
+}
+
+.jwt-chip-small {
+  padding: 0.15rem 0.65rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+
+.jwt-heads-up {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jwt-heads-up-item {
+  --tone: var(--jwt-warn);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: start;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.88rem;
+  background: color-mix(in srgb, var(--tone) 10%, var(--surface));
+  border: 2px solid var(--tone);
+  border-radius: var(--radius-sm);
+}
+
+.jwt-heads-up-item > svg {
+  margin-top: 0.1rem;
+  color: var(--tone);
+}
+
+.jwt-heads-up-bad {
+  --tone: var(--error);
+}
+
+.jwt-heads-up-item strong {
+  color: var(--tone);
+}
+
+/* ---- Notes */
+
+.jwt-empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.jwt-empty p {
+  margin: 0;
+}
+
+.jwt-warn {
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  background: color-mix(in srgb, var(--jwt-warn) 12%, var(--surface));
+  border: 2px solid var(--jwt-warn);
+  border-radius: var(--radius-sm);
+}
+
+.jwt-errors {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.75rem 1rem 0.75rem 2rem;
+  color: var(--error);
+  background: var(--error-bg);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-sm);
+}
+
+.jwt-tool .error {
+  margin: 0;
+}
+
+.jwt-fold summary {
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.jwt-fold[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+.jwt-tool .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes jwt-pop {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+
+/* High-contrast (forced colors) mode repaints the transparent textarea text,
+   which would double up with the colored layer. Keep the layer for its
+   height only and let the textarea show the text in system colors. */
+@media (forced-colors: active) {
+  .jwt-field-paint {
+    visibility: hidden;
+  }
+
+  .jwt-field-input {
+    color: CanvasText;
+    caret-color: CanvasText;
+  }
+
+  .jwt-field-input::selection {
+    color: HighlightText;
+    background: Highlight;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jwt-sticker {
+    animation: none;
+  }
+
+  .jwt-life-fill,
+  .jwt-life-now {
+    transition: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .jwt-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .jwt-alg-group {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+
+  .jwt-row {
+    grid-template-columns: 1fr;
+  }
+
+  .jwt-field-paint,
+  .jwt-field-input {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.85rem;
+  }
+}
