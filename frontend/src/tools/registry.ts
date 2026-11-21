@@ -164,6 +164,18 @@ export const TOOLS: Tool[] = [
     Component: lazy(() => import('./base64/Base64Tool')),
   },
   {
+    slug: 'jwt',
+    name: 'JWT Decoder / Encoder',
+    description: 'Decode a JSON Web Token to read its claims and check its signature, or build and sign a new one.',
+    category: 'Converters',
+    icon: 'token',
+    keywords: [
+      'jwt', 'json web token', 'token', 'decode', 'encode', 'sign', 'verify', 'signature', 'claims', 'bearer',
+      'hs256', 'rs256', 'es256', 'eddsa', 'jwk', 'jwks', 'oauth', 'openid', 'auth', 'exp',
+    ],
+    Component: lazy(() => import('./jwt/JwtTool')),
+  },
+  {
     slug: 'spin-wheel',
     name: 'Spin Wheel',
     description: 'Put names or choices on a wheel, give it a spin and let it pick one for you.',

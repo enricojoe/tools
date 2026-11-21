@@ -66,6 +66,7 @@ export const PATHS = {
   fit: 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5',
   coin: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 6.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM12 9.5v5',
   datecalc: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4M12 12.5v5M9.5 15h5',
+  token: 'M8 5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zM11.2 12.7L20 21.5M15.5 17l2.2-2.2M18.3 19.8l2.2-2.2M8 9.5h.01',
 } as const
 
 export type IconName = keyof typeof PATHS

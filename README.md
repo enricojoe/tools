@@ -140,6 +140,18 @@ Turn text or a file into Base64, or Base64 back into text, an image or a file.
 - **How it works:** a fold-out shows your first 3 bytes as bits, cut into four 6-bit groups, each with its number and letter, with the fill bits and `=` padding marked.
 - **Good to know:** everything runs in the browser, so nothing is sent to the server. Both inputs and your options are kept on this device; Clear empties the current one.
 
+### JWT Decoder / Encoder (`/tools/jwt`)
+
+Read what's inside a JSON Web Token and check its signature, or build and sign a new one. Two modes at the top, **Decode** and **Encode & sign** (remembered); each keeps its own input while you switch.
+
+- **Colored token:** the token is painted in three colors (header, payload, signature) right in the box you type in, and each part's card wears the same color.
+- **Decode:** paste a token; a `Bearer ` prefix, quotes and line breaks are fine. Header fields and payload claims are listed with what they mean (`iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti` and common OpenID ones), times as local dates with "in 40 minutes" / "3 days ago", and a warning when a time looks like milliseconds. Stickers show the algorithm, whether it's expired or not valid yet (ticking every second, with an optional clock leeway of 30 s, 1 min or 5 min, as servers allow; remembered) and the signature result. A **lifetime bar** shows where now falls between `nbf` / `iat` and `exp`. Errors say which part is broken; an encrypted JWE is recognized (only its header is readable); `alg: none` gets a warning.
+- **Heads-up list:** common mistakes are called out under the token: `alg: none`, **algorithm confusion** (an HS* token checked with a public key as its secret, worded more strongly when it actually verifies), `jku` / `x5u` key URLs in the header, path or quote characters in `kid`, lifetimes over 30 days, `iat` in the future, and secret-looking payload fields (`password`, `client_secret`, `api_key`, `nik`, `pin`…), since the payload isn't encrypted.
+- **Verify the signature:** HS256/384/512 with a secret (as text or Base64), RS*, PS*, ES256/384/512 and EdDSA (Ed25519) with a public key as PEM, a certificate, a JWK or a JWKS (picked by the token's `kid`); a private key works too. A secret shorter than RFC 7518 asks for gets a note, and a DER-encoded ECDSA signature is pointed out. Secrets are multi-line boxes, so a pasted key keeps its exact bytes.
+- **Encode & sign:** pick an algorithm from the chips, edit the header and payload JSON (`alg` follows the chip), and set `iat`, `exp` (in 15 min, 1 h, 1 day or 7 days), `nbf` or a random `jti` with one click. HS* takes a secret (or a random one; a public key pasted as the secret gets a warning); the others take a PKCS#8 PEM or JWK private key, or **Generate key pair** makes one and shows the public key to copy. The token updates as you type.
+- **Round trips:** "Decode it" opens the new token in Decode with the matching key, so it verifies; "Edit & re-sign" takes a decoded token's header, payload and secret into Encode.
+- **Good to know:** everything runs in the browser with Web Crypto, so tokens and keys are never sent to the server, and they aren't saved (only the mode, algorithm and leeway are remembered). In high-contrast (forced colors) mode the token shows in plain system colors.
+
 ### SVG Viewer (`/tools/svg-viewer`)
 
 Look at an SVG up close, repaint its colors, pit two versions against each other and take it away as a PNG or a React component. Two modes at the top, **Studio** and **A vs B** (remembered).
@@ -324,6 +336,7 @@ What the app can do for its users.
 - [x] Word counter: live words, characters (with and without spaces), sentences, paragraphs, lines, reading and speaking time, a limit bar (X post, meta description or custom), top words, copy, clear and a saved draft; counted in the browser
 - [x] Case converter: UPPER, lower, Title, Sentence, inverse and alternating case plus camelCase, PascalCase, snake_case, CONSTANT_CASE, kebab-case and dot.case, all shown at once with copy, "use this" and a button back to the original; converted in the browser
 - [x] Base64 encoder / decoder: UTF-8 text or picked, dropped or pasted files (up to 5 MB, optionally as a `data:` URL) to Base64 with URL-safe, padding and line-wrap options; forgiving decoding with clear errors, decoded files shown with type, image preview, hex and Download; a nudge when input is in the wrong mode, examples, downloads, and a "How it works" bit breakdown; encoded in the browser
+- [x] JWT decoder / encoder: paste a token to see it in three colors, header and claims explained with local times, an expiry sticker with optional clock leeway and a lifetime bar; a heads-up list for common mistakes (alg none, algorithm confusion, key URLs, odd `kid`, long lifetimes, secrets in the payload); verify HS / RS / PS / ES / EdDSA signatures with a secret, PEM, certificate, JWK or JWKS; build and sign tokens with quick claim buttons, a random secret or a generated key pair; Decode it / Edit & re-sign round trips; signed in the browser with Web Crypto
 - [x] SVG viewer: paste, pick or drop an SVG to see it with zoom / pan and backgrounds, size, viewBox, tags, colors and warnings, Format / Minify, and export as PNG (1×–4× or a set width), `.svg`, data URL or CSS; shown safely as an image, in the browser
 - [x] SVG viewer extras, as an artboard studio: paint pots to recolor a color everywhere at once (live try-out, hover to spot it, `currentColor`, undo); an A vs B face-off with swipe handle, side by side and pixel difference, what-differs chips and a side-by-side code diff; SVG → React component / JSX with TypeScript, props and size options; paste anywhere, a code panel, sticker exports and toasts
 - [x] Spin wheel: entries one per line on a colored wheel that spins and stops on a fair pick, remove the winner, shuffle / sort, recent picks, entries saved on the device
@@ -365,7 +378,7 @@ Claude's suggestions for next steps, for the owner to accept or drop.
 
 #### New tools
 
-- [ ] Developer utilities: JSON formatter, Unix timestamp ↔ date, UUID, hashes (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron explainer, text diff, regex tester
+- [ ] Developer utilities: JSON formatter, Unix timestamp ↔ date, UUID, hashes (MD5 / SHA-1 / SHA-256), URL encode/decode, slug generator, cron explainer, text diff, regex tester
 - [ ] Text tools: find & replace, remove extra spaces and line breaks, sort or dedupe lines
 - [ ] Password generator and image resizer
 - [ ] World clock / timezone converter, reusing `/api/time` and the server clock hook
