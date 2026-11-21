@@ -319,7 +319,6 @@ What the app can do for its users.
 - [x] Pomodoro: focus / short break / long break cycle with adjustable lengths, auto-advance, labels, progress ring, tab title countdown, sound and browser notification, and a "Today" list of finished sessions (logged through the API and saved in the database)
 - [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors; pick colors from an image (click a pixel with a zoom loupe, or use its main colors)
 - [x] Stopwatch: centisecond stopwatch with laps (fastest and slowest highlighted), keyboard shortcuts, tab title, and labelled runs you can save, list and delete through the API (kept in server memory)
-- [x] Color picker: saturation/brightness square, hue slider, hex input and eyedropper, with HEX/RGB/HSL/HSV/CMYK values (copyable), nearest color name, WCAG contrast, harmonies, shades and saved colors
 - [x] Unit converter: 10 categories (length, mass, temperature, volume, area, speed, time, data, pressure, energy) as icon tiles, From/To panels with unit chips, a spinning swap button and ×10 / ÷10 / ± nudges, copyable result, everyday comparisons (and a thermometer for temperatures), the value in every unit with log-scale bars, remembered choices
 - [x] Lorem ipsum generator: paragraphs, sentences or words with a count slider, optional classic "Lorem ipsum dolor sit amet…" opening, plain text or HTML `<p>` output, shuffle, copy, and paragraph / word / character counts
 - [x] Word counter: live words, characters (with and without spaces), sentences, paragraphs, lines, reading and speaking time, a limit bar (X post, meta description or custom), top words, copy, clear and a saved draft; counted in the browser
@@ -364,19 +363,27 @@ _None right now._
 
 Claude's suggestions for next steps, for the owner to accept or drop.
 
-- [ ] More tools: JSON formatter, password generator, image resizer
-- [ ] Date calculator: age calculator (exact age and next birthday) and a countdown to a saved date
-- [ ] Long-weekend finder (harpitnas): upcoming long weekends and which leave days bridge them, from the same holiday data
-- [ ] Short links + QR: shorten a URL (saved in PostgreSQL) with a QR code for it
-- [ ] Split bill: items per person plus tax (PB1 / PPN) and service charge, each person's share in Rupiah
-- [ ] Rupiah terbilang: a number in Indonesian words ("seratus dua puluh lima ribu rupiah") for invoices and receipts
+#### New tools
+
+- [ ] Developer utilities: JSON formatter, Unix timestamp ↔ date, UUID, hashes (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron explainer, text diff, regex tester
+- [ ] Text tools: find & replace, remove extra spaces and line breaks, sort or dedupe lines
+- [ ] Password generator and image resizer
 - [ ] World clock / timezone converter, reusing `/api/time` and the server clock hook
-- [ ] Developer utilities: Unix timestamp ↔ date, UUID generator, hash generator (MD5 / SHA-1 / SHA-256), JWT decoder, URL encode/decode, slug generator, cron expression explainer, text diff, regex tester
-- [ ] More text tools: find & replace, remove extra spaces and line breaks, sort or dedupe lines
-- [ ] Fun / random: team splitter (random groups from a list of names), random number generator
-- [ ] QR extras: SVG output, custom colors, Wi-Fi / vCard templates
-- [ ] Recently used tools on the home page too (the sidebar already lists them), and category colors on the home page cards to match the sidebar
-- [ ] Calendar: add each new year's holidays when its SKB 3 Menteri comes out (2028 is usually published around September 2027)
+- [ ] Long-weekend finder (harpitnas): upcoming long weekends and the leave days that bridge them, from the calendar's holiday data
+- [ ] Split bill: items per person plus tax (PB1 / PPN) and service charge, each share in Rupiah
+- [ ] Rupiah terbilang: a number in Indonesian words ("seratus dua puluh lima ribu rupiah") for invoices and receipts
+- [ ] Short links + QR: shorten a URL (saved in PostgreSQL) and get a QR code for it
+- [ ] Random picks: team splitter (random groups from a list of names) and random number generator
+
+#### Improvements to existing tools
+
+- [ ] Date calculator: age calculator (exact age and next birthday) and a countdown to a saved date
+- [ ] QR code generator: SVG output, custom colors, Wi-Fi / vCard templates
+- [ ] Home page: recently used tools (like the sidebar) and category colors on the cards
+- [ ] Calendar: add each year's holidays when its SKB 3 Menteri comes out (2028's is usually published around September 2027)
+
+#### Technical
+
 - [ ] Frontend tests (Vitest + React Testing Library)
 - [ ] Move Stopwatch runs from server memory to the database, like Pomodoro
 - [ ] Authentication
